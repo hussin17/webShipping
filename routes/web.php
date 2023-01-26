@@ -6,6 +6,7 @@ use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\StatesController;
+use App\Http\Controllers\SuppliersController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -42,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/clients', ClientsController::class);
 
     // Delegates
-    Route::resource('/delegates', ClientsController::class);
+    Route::resource('/suppliers', SuppliersController::class);
 
     // Route::get('/{page}', [AdminController::class, 'index']);
 });
