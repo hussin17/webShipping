@@ -319,7 +319,7 @@
                         <a class="dropdown-item" href=""><i class="bx bx-slider-alt"></i> Account Settings</a>
                         <form action="{{route('logout')}}" method="post">
                             @csrf
-                            <button class="dropdown-item" href="{{ route('logout') }}"><i class="bx bx-log-out"></i> Sign Out</button>
+                            <button class="dropdown-item" href="{{ route('logout') }}"><i class="bx bx-log-out"></i> تسجيل الخروج</button>
                         </form>
                     </div>
                 </div>

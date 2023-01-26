@@ -20,12 +20,20 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+/*
+    ِAdminPanel =>
+    {
+        email => [code@code.com, admin@admin.com]
+        password => [Code123456789]
+    }
+*/
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Auth::routes(['register' => false]);
-Auth::routes();
+Auth::routes(['register' => false]);
+// Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
