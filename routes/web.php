@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\CountriesController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\StatesController;
 use App\Http\Controllers\SuppliersController;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Delegates
     Route::resource('/suppliers', SuppliersController::class);
+
+    // Orders
+    Route::resource('/orders', OrdersController::class);
 
     // Route::get('/{page}', [AdminController::class, 'index']);
 });

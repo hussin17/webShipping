@@ -95,7 +95,6 @@ class SuppliersController extends Controller
             // 'dealing_id' => 'required'
         ]);
 
-
         DB::table('suppliers')->where('id', $id)->update([
             'name' => $request->name,
             'phone' => $request->phone,

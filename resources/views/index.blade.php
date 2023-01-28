@@ -101,8 +101,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row row-sm">
         {{-- Suppliers --}}
         <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
             <div class="card overflow-hidden sales-card bg-purple-gradient">
@@ -117,6 +115,27 @@
                             <div class="">
                                 <h4 class="tx-20 font-weight-bold mb-1 text-white">
                                     ${{ DB::table('suppliers')->count('id') }}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Orders --}}
+        <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+            <div class="card overflow-hidden sales-card bg-warning-gradient">
+                <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                    <a href="{{ url('/' . ($page = 'orders')) }}">
+                        <div class="">
+                            <h2 class="mb-3 tx-6 text-white">الطلبات</h2>
+                        </div>
+                    </a>
+                    <div class="pb-0 mt-0">
+                        <div class="d-flex">
+                            <div class="">
+                                <h4 class="tx-20 font-weight-bold mb-1 text-white">
+                                    ${{ DB::table('orders')->count('id') }}
                                 </h4>
                             </div>
                         </div>
