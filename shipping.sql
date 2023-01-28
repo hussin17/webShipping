@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2023 at 02:09 AM
+-- Generation Time: Jan 29, 2023 at 12:38 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -115,6 +115,104 @@ FROM
     INNER JOIN lk_country
     ON
     lk_state.country_id = lk_country.id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_getOrderById` (IN `id` INT)   select 
+	orders.id,
+    orders.size,
+    orders.weight,
+    orders.notes,
+    orders.orderDate,
+    orders.details_address,
+    orders.mount,
+    orders.client_id,
+    orders.supplier_id,
+    clients.name AS ClientName,
+    clients.phone AS ClientPhone,
+    suppliers.name AS SupplierName,
+    suppliers.phone AS SupplierPhone,
+    originplace.id AS originId,
+    deliveryplace.id AS deliveryId,
+    originplace.name AS originPlace,
+    deliveryplace.name AS deliveryPlace
+from 
+	orders
+    left join clients
+    on
+    clients.id = orders.client_id
+    left join suppliers
+    on 
+    suppliers.id = orders.supplier_id
+    left join lk_city AS originplace
+    on
+    orders.origin_place = originplace.id
+    left join lk_city AS deliveryplace
+    on
+    orders.delivery_place = deliveryplace.id
+where orders.id = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_getOrderData` ()   select 
+	orders.id,
+	orders.orderDate,
+    clients.name AS clientName,
+    clients.phone AS clientPhone,
+    suppliers.name AS supplierName,
+    suppliers.phone AS supplierPhone,
+    lk_country.name AS countryName,
+    lk_state.name AS stateName,
+    lk_city.name AS cityName,
+    orders.delivery_place,
+    orders.origin_place,
+    orders.mount
+FROM
+	orders
+    inner JOIN clients
+    ON
+    orders.client_id = clients.id
+    inner JOIN suppliers
+    ON
+    orders.supplier_id = suppliers.id
+    inner join lk_city
+    ON
+    orders.delivery_place = lk_city.id
+    OR
+    orders.origin_place = lk_city.id
+    inner join lk_state
+    ON 
+    lk_state.id = lk_city.state_id
+    inner JOIN lk_country
+    ON
+    lk_state.country_id = lk_country.id
+    
+    WHERE lk_city.id = 3$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_getOrders` ()   select 
+	orders.id,
+    orders.size,
+    orders.weight,
+    orders.notes,
+    orders.orderDate,
+    orders.details_address,
+    orders.mount,
+    clients.name AS ClientName,
+    clients.phone AS ClientPhone,
+    suppliers.name AS SupplierName,
+    suppliers.phone AS SupplierPhone,
+    originplace.name AS originPlace,
+    deliveryplace.name AS deliveryPlace
+from 
+	orders
+    left join clients
+    on
+    clients.id = orders.client_id
+    left join suppliers
+    on 
+    suppliers.id = orders.supplier_id
+    left join lk_city AS originplace
+    on
+    orders.origin_place = originplace.id
+    left join lk_city AS deliveryplace
+    on
+    orders.delivery_place = deliveryplace.id$$
 
 DELIMITER ;
 
@@ -272,6 +370,58 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `orderDate` date NOT NULL DEFAULT current_timestamp(),
+  `origin_place` int(11) NOT NULL,
+  `delivery_place` int(11) NOT NULL,
+  `details_address` text DEFAULT NULL,
+  `mount` int(11) NOT NULL,
+  `size` int(11) DEFAULT NULL,
+  `weight` int(11) DEFAULT NULL,
+  `notes` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `client_id`, `supplier_id`, `orderDate`, `origin_place`, `delivery_place`, `details_address`, `mount`, `size`, `weight`, `notes`) VALUES
+(1, 2, 3, '2023-01-27', 1, 3, 'عنوان تفصيلي', 250, 10, 30, 'ملاحظات'),
+(2, 2, 3, '2023-01-28', 1, 3, NULL, 236, 120, 250, NULL),
+(4, 2, 2, '2023-01-28', 1, 1, NULL, 230, NULL, NULL, NULL),
+(5, 2, 2, '2023-01-28', 3, 3, NULL, 256, NULL, NULL, 'Notes');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `ordersdata`
+-- (See below for the actual view)
+--
+CREATE TABLE `ordersdata` (
+`id` int(11)
+,`size` int(11)
+,`weight` int(11)
+,`notes` text
+,`orderDate` date
+,`details_address` text
+,`mount` int(11)
+,`ClientName` varchar(255)
+,`ClientPhone` varchar(15)
+,`SupplierName` varchar(255)
+,`SupplierPhone` varchar(15)
+,`originPlace` varchar(50)
+,`deliveryPlace` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `password_resets`
 --
 
@@ -302,6 +452,26 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `suppliers`
+--
+
+CREATE TABLE `suppliers` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `suppliers`
+--
+
+INSERT INTO `suppliers` (`id`, `name`, `phone`) VALUES
+(2, 'mohamed', '01061093957'),
+(3, 'حسين', '01061093957');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -321,7 +491,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@admin.com', NULL, '$2y$10$obeula82bU7YS77gvYvC6uOrcxc8XFTv92NtkbYu/AZeveGZijyKq', NULL, '2023-01-15 20:46:54', '2023-01-15 20:46:54');
+(1, 'Admin', 'admin@admin.com', NULL, '$2y$10$egymOTc3PN1k/PEOkwwDGuLfRRQ3VboTUH32GFkHX8kIjkrB.jZj2', NULL, '2023-01-15 20:46:54', '2023-01-15 20:46:54'),
+(2, 'Code', 'code@code.com', NULL, '$2y$10$egymOTc3PN1k/PEOkwwDGuLfRRQ3VboTUH32GFkHX8kIjkrB.jZj2', NULL, '2023-01-26 18:07:21', '2023-01-26 18:07:21');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `ordersdata`
+--
+DROP TABLE IF EXISTS `ordersdata`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ordersdata`  AS SELECT `orders`.`id` AS `id`, `orders`.`size` AS `size`, `orders`.`weight` AS `weight`, `orders`.`notes` AS `notes`, `orders`.`orderDate` AS `orderDate`, `orders`.`details_address` AS `details_address`, `orders`.`mount` AS `mount`, `clients`.`name` AS `ClientName`, `clients`.`phone` AS `ClientPhone`, `suppliers`.`name` AS `SupplierName`, `suppliers`.`phone` AS `SupplierPhone`, `originplace`.`name` AS `originPlace`, `deliveryplace`.`name` AS `deliveryPlace` FROM ((((`orders` left join `clients` on(`clients`.`id` = `orders`.`client_id`)) left join `suppliers` on(`suppliers`.`id` = `orders`.`supplier_id`)) left join `lk_city` `originplace` on(`orders`.`origin_place` = `originplace`.`id`)) left join `lk_city` `deliveryplace` on(`orders`.`delivery_place` = `deliveryplace`.`id`))  ;
 
 --
 -- Indexes for dumped tables
@@ -377,6 +557,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -389,6 +575,12 @@ ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -450,16 +642,28 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `suppliers`
+--
+ALTER TABLE `suppliers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
