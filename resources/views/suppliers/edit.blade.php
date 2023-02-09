@@ -34,35 +34,57 @@
                         <div class="">
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
-                                    <label>اسم المورد: <span class="tx-danger">*</span></label>
-                                    <input  autofocus="true" class="form-control" name="name" value="{{ $supplierData->name }}"
-                                        placeholder="ادخل اسم المورد" required="true" type="text">
+                                    <label>اسم المورد ثلاثي<span class="tx-danger">*</span></label>
+                                    <input autofocus class="form-control" name="name" value="{{$supplierData->name}}"
+                                        required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
-                                    <label>رقم المورد: <span class="tx-danger">*</span></label>
-                                    <input  autofocus="true" class="form-control" name="phone" value="{{ $supplierData->phone }}"
-                                        placeholder="ادخل رقم المورد" required="true" type="text">
-                                </div>
-                                {{-- <div class="parsley-input col-md-6">
-                                    <label>عنوان المورد: <span class="tx-danger">*</span></label>
-                                    <select class="form-control" name="address" value="{{ $supplierData->city_id }}" required="true">
-                                        <option value="{{ $supplierData->city_id }}">{{ $supplierData->countryName }} - {{ $supplierData->stateName }} - {{ $supplierData->cityName }}</option>
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}">{{$city->CountryName}} - {{$city->StateName}} - {{$city->name}}</option>
-                                        @endforeach
-                                        {{-- <option value="{{ $client->city_id }}"></option>
-                                    </select>
-                                </div> --}}
-                                {{-- <div class="parsley-input col-md-6">
-                                    <label>نوع التعامل مع المورد: <span class="tx-danger">*</span></label>
-                                    <select class="form-control" name="dealing_id" value="{{ $supplierData->dealingType }}"
+                                    <label>اسم التجاري: <span class="tx-danger">*</span></label>
+                                    <input autofocus class="form-control" name="tradeName" value="{{$supplierData->tradeName}}"
                                         required="true" type="text">
-                                        <option value="{{$supplierData->dealing_id}}">{{ $supplierData->dealingType }}</option>
-                                        @foreach ($dealingTypes as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>رقم المورد الشخصي1: <span class="tx-danger">*</span></label>
+                                    <input autofocus class="form-control" name="personalPhone1" value="{{$supplierData->personalPhone1}}"
+                                        required="true" type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>رقم المورد الشخصي2: <span class="tx-danger">*</span></label>
+                                    <input autofocus class="form-control" name="personalPhone2" value="{{$supplierData->personalPhone2}}"
+                                        required="true" type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>رقم المورد التجاري1: <span class="tx-danger">*</span></label>
+                                    <input autofocus class="form-control" name="tradePhone1" value="{{$supplierData->tradePhone1}}"
+                                        required="true" type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>رقم المورد التجاري2: <span class="tx-danger">*</span></label>
+                                    <input autofocus class="form-control" name="tradePhone2" value="{{$supplierData->tradePhone2}}"
+                                        required="true" type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>عنوان المورد الشخصي: <span class="tx-danger">*</span></label>
+                                    <select name="personalAddress" id="" required="true" class="form-control">
+                                        <option value="{{$supplierData->personalAddressID}}">{{$supplierData->personalAddress}}</option>
+                                        @foreach ($getCities as $address)
+                                            <option value="{{$address->id}}">{{$address->StateName}} - {{$address->name}}</option>
                                         @endforeach
                                     </select>
-                                </div> --}}
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>عنوان المورد التجاري: <span class="tx-danger">*</span></label>
+                                    <select name="tradeAddress" id="" required="true" class="form-control">
+                                        <option value="{{$supplierData->tradeAddressID}}">{{$supplierData->tradeAddress}}</option>
+                                        @foreach ($getCities as $address)
+                                            <option value="{{$address->id}}">{{$address->StateName}} - {{$address->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>رقم السجل: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" type="text" name="recordNumber" value="{{$supplierData->recordNumber}}">
+                                </div>
                             </div>
                         </div>
                         <div class="mg-t-30">

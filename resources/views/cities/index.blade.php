@@ -30,7 +30,7 @@
                     <table class="table table-hover mb-0 text-md-nowrap">
                         <thead>
                             <tr>
-                                <th>الدولة-المحافظة</th>
+                                <th>المحافظة</th>
                                 <th>المدينة</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
@@ -39,7 +39,7 @@
                         <tbody>
                             @foreach ($cities as $city)
                                 <tr>
-                                    <td>{{ $city->CountryName }}-{{ $city->StateName }}</td>
+                                    <td>{{ $city->StateName }}</td>
                                     <td>{{ $city->name }}</td>
                                     <td>
                                         <a href="{{ route('cities.edit', $city->id) }}">

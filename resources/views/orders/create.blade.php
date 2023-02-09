@@ -34,11 +34,12 @@
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
                                     <label>اسم العميل: <span class="tx-danger">*</span></label>
-                                    <select  class="form-control" name="clientName" required="true">
+                                    <input type="text" list="clientName" class="form-control">
+                                    <datalist id="clientName">
                                         @foreach ($clients as $client)
-                                            <option value="{{$client->id}}">{{$client->name}}</option>
+                                            <option value="{{$client->id}}"> {{$client->name}} </option>
                                         @endforeach
-                                    </select>
+                                    </datalist>
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>اسم المورد: <span class="tx-danger">*</span></label>

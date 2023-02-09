@@ -31,9 +31,12 @@
                         <thead>
                             <tr>
                                 <th>اسم المورد</th>
+                                <th>اسم التجاري</th>
                                 <th>رقم تليفونه</th>
-                                {{-- <th>عنوانه</th>
-                                <th>نوع التعامل</th> --}}
+                                <th>رقم المحل</th>
+                                <th>عنوان المحل</th>
+                                <th>العنوان الشخصي</th>
+                                <th>رقم السجل</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
                             </tr>
@@ -42,9 +45,12 @@
                             @foreach ($suppliers as $supplier)
                                 <tr>
                                     <td>{{ $supplier->name }}</td>
-                                    <td>{{ $supplier->phone }}</td>
-                                    {{-- <td>{{ $supplier->countryName }} - {{ $supplier->stateName }} - {{ $supplier->cityName }}</td>
-                                    <td>{{ $supplier->dealingType }}</td> --}}
+                                    <td>{{ $supplier->tradeName }}</td>
+                                    <td>{{ $supplier->personalPhone1 }} - {{ $supplier->personalPhone2 }}</td>
+                                    <td>{{ $supplier->tradePhone1 }} - {{ $supplier->tradePhone2 }}</td>
+                                    <td>{{ $supplier->personalAddress }}</td>
+                                    <td>{{ $supplier->tradeAddress }}</td>
+                                    <td>{{ $supplier->recordNumber }}</td>
                                     <td>
                                         <a href="{{ route('suppliers.edit', $supplier->id) }}">
                                             <i class="fas fa-edit text-primary"></i>

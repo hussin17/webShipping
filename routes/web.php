@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\CountriesController;
+use App\Http\Controllers\DelegatesController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\StatesController;
 use App\Http\Controllers\SuppliersController;
@@ -42,9 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::redirect('/', 'index');
 
-    // Countries - States - Cities
-    Route::post('/getStates', [CitiesController::class, 'getStates']);
-    Route::resource('/countries', CountriesController::class);
+    // States - Cities
     Route::resource('/states', StatesController::class);
     Route::resource('/cities', CitiesController::class);
 
@@ -54,8 +53,11 @@ Route::middleware(['auth'])->group(function () {
     // Delegates
     Route::resource('/suppliers', SuppliersController::class);
 
+    // delegates
+    Route::resource('/delegates', DelegatesController::class);
+
     // Orders
-    Route::resource('/orders', OrdersController::class);
+    // Route::resource('/orders', OrdersController::class);
 
     // Route::get('/{page}', [AdminController::class, 'index']);
 });

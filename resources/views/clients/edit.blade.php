@@ -36,31 +36,21 @@
                                 <div class="parsley-input col-md-6">
                                     <label>اسم العميل: <span class="tx-danger">*</span></label>
                                     <input  autofocus="true" class="form-control" name="name" value="{{ $clientData[0]->name }}"
-                                        placeholder="ادخل اسم العميل" required="true" type="text">
+                                        required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم العميل: <span class="tx-danger">*</span></label>
                                     <input  autofocus="true" class="form-control" name="phone" value="{{ $clientData[0]->phone }}"
-                                        placeholder="ادخل رقم العميل" required="true" type="text">
+                                        required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>عنوان العميل: <span class="tx-danger">*</span></label>
                                     <select class="form-control" name="address" value="{{ $clientData[0]->city_id }}" required="true">
-                                        <option value="{{ $clientData[0]->city_id }}">{{ $clientData[0]->countryName }} - {{ $clientData[0]->stateName }} - {{ $clientData[0]->cityName }}</option>
+                                        <option value="{{ $clientData[0]->city_id }}">{{ $clientData[0]->stateName }} - {{ $clientData[0]->cityName }}</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}">{{$city->CountryName}} - {{$city->StateName}} - {{$city->name}}</option>
+                                            <option value="{{ $city->id }}">{{$city->StateName}} - {{$city->name}}</option>
                                         @endforeach
                                         {{-- <option value="{{ $client->city_id }}"></option> --}}
-                                    </select>
-                                </div>
-                                <div class="parsley-input col-md-6">
-                                    <label>نوع التعامل مع العميل: <span class="tx-danger">*</span></label>
-                                    <select class="form-control" name="dealing_id" value="{{ $clientData[0]->dealingType }}"
-                                        required="true" type="text">
-                                        <option value="{{$clientData[0]->dealing_id}}">{{ $clientData[0]->dealingType }}</option>
-                                        @foreach ($dealingTypes as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
                                     </select>
                                 </div>
                             </div>

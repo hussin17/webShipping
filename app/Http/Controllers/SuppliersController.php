@@ -14,10 +14,10 @@ class SuppliersController extends Controller
      */
     public function index()
     {
-        // Get Client name, phone
-        // Get Supplier name, phone
-        $suppliers = DB::table('suppliers')->get();
-        // dd($suppliers);
+        $suppliers = DB::table('suppliers')
+        ->join('lk_city AS personalAddress', 'suppliers.personalAddress', '=', 'personalAddress.id', 'left')
+        ->join('lk_city AS tradeAddress', 'suppliers.tradeAddress', '=', 'tradeAddress.id')
+        ->get(['suppliers.id', 'suppliers.name', 'suppliers.tradeName', 'suppliers.personalPhone1', 'suppliers.personalPhone2', 'suppliers.tradePhone1', 'suppliers.tradePhone2', 'personalAddress.name AS personalAddress', 'tradeAddress.name AS tradeAddress', 'suppliers.recordNumber']);
         return view('suppliers.index', compact('suppliers'));
     }
 
@@ -28,7 +28,8 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        return view('suppliers.create');
+        $getCities = DB::table("getCities")->get();
+        return view('suppliers.create', compact('getCities'));
     }
 
     /**
@@ -40,17 +41,26 @@ class SuppliersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'unique:suppliers'],
-            'phone' => 'required',
-            // 'address' => 'required',
-            // 'dealing_id' => 'required',
+            'name'              => ['required', 'unique:suppliers'],
+            'tradeName'         => ['required', 'unique:suppliers'],
+            'personalPhone1'    => 'required',
+            'personalPhone2'    => 'required',
+            'tradePhone1'       => 'required',
+            'tradePhone2'       => 'required',
+            'personalAddress'   => 'required',
+            'tradeAddress'      => 'required',
         ]);
 
         DB::table('suppliers')->insert([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            // 'city_id' => $request->address,
-            // 'dealing_id' => $request->dealing_id
+            'name'              => $request->name,
+            'tradeName'         => $request->tradeName,
+            'personalPhone1'    => $request->personalPhone1,
+            'personalPhone2'    => $request->personalPhone2,
+            'tradePhone1'       => $request->tradePhone1,
+            'tradePhone2'       => $request->tradePhone2,
+            'personalAddress'   => $request->personalAddress,
+            'tradeAddress'      => $request->tradeAddress,
+            'recordNumber'      => $request->recordNumber,
         ]);
 
         return redirect()->back()->with('success', "تمت الاضافة بنجاح");
@@ -75,8 +85,15 @@ class SuppliersController extends Controller
      */
     public function edit($id)
     {
-        $supplierData = DB::table('suppliers')->find($id);
-        return view('suppliers.edit', compact('supplierData'));
+        // $supplierData = DB::select("call SP_getSupplierByID($id)");
+        $supplierData = DB::table('suppliers')
+        ->join('lk_city AS personalAddress', 'suppliers.personalAddress', '=', 'personalAddress.id', 'left')
+        ->join('lk_city AS tradeAddress', 'suppliers.tradeAddress', '=', 'tradeAddress.id')
+        ->where('suppliers.id', $id)
+        ->get(['suppliers.id', 'suppliers.name', 'suppliers.tradeName', 'suppliers.personalPhone1', 'suppliers.personalPhone2', 'suppliers.tradePhone1', 'suppliers.tradePhone2', 'personalAddress.id AS personalAddressID', 'personalAddress.name AS personalAddress', 'tradeAddress.id AS tradeAddressID', 'tradeAddress.name AS tradeAddress', 'suppliers.recordNumber']);
+        $getCities = DB::table("getCities")->get();
+        $supplierData = $supplierData[0];
+        return view('suppliers.edit', compact('supplierData', 'getCities'));
     }
 
     /**
@@ -89,17 +106,26 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'phone' => 'required',
-            // 'address' => 'required',
-            // 'dealing_id' => 'required'
+            'name'              => 'required',
+            'tradeName'         => 'required',
+            'personalPhone1'    => 'required',
+            'personalPhone2'    => 'required',
+            'tradePhone1'       => 'required',
+            'tradePhone2'       => 'required',
+            'personalAddress'   => 'required',
+            'tradeAddress'      => 'required',
         ]);
 
         DB::table('suppliers')->where('id', $id)->update([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            // 'dealing_id' => $request->dealing_id,
-            // 'city_id' => $request->address
+            'name'              => $request->name,
+            'tradeName'         => $request->tradeName,
+            'personalPhone1'    => $request->personalPhone1,
+            'personalPhone2'    => $request->personalPhone2,
+            'tradePhone1'       => $request->tradePhone1,
+            'tradePhone2'       => $request->tradePhone2,
+            'personalAddress'   => $request->personalAddress,
+            'tradeAddress'      => $request->tradeAddress,
+            'recordNumber'      => $request->recordNumber,
         ]);
 
         return redirect()->back()->with('success', 'تم التعديل بنجاح');

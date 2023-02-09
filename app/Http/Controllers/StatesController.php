@@ -14,7 +14,7 @@ class StatesController extends Controller
      */
     public function index()
     {
-        $states = DB::select("Call lk_states_countries()");
+        $states = DB::table("lk_state")->get();
         return view('states.index', compact('states'));
     }
 
@@ -25,8 +25,7 @@ class StatesController extends Controller
      */
     public function create()
     {
-        $countries = DB::table('lk_country')->select()->get();
-        return view('states.create',compact('countries'));
+        return view('states.create');
     }
 
     /**
@@ -38,13 +37,13 @@ class StatesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'countries' => 'required'
+            'name' => ['required', 'unique:lk_state'],
+            'shippingValue' => 'required'
         ]);
 
         DB::table('lk_state')->insert([
             'name' => $request->name,
-            'country_id' => $request->countries
+            'shippingValue' => $request->shippingValue
         ]);
         return redirect()->back()->with('success', "تمت الاضافة بنجاح");
     }
@@ -69,9 +68,7 @@ class StatesController extends Controller
     public function edit($id)
     {
         $state = DB::table('lk_state')->find($id); // 1Row
-        $countries = DB::table('lk_country')->where('id', $state->country_id)->get();
-        // dd($countries);
-        return view('states.edit', compact('state', 'countries'));
+        return view('states.edit', compact('state'));
     }
 
     /**
@@ -86,12 +83,12 @@ class StatesController extends Controller
         // dd($request, $id);
         $this->validate($request, [
             'name' => 'required',
-            'countries' => 'required'
+            'shippingValue' => 'required'
         ]);
 
         DB::table('lk_state')->where('id', $id)->update([
             'name' => $request->name,
-            'country_id' => $request->countries
+            'shippingValue' => $request->shippingValue
         ]);
         return redirect()->back()->with('success', "تم التعديل بنجاح");
     }

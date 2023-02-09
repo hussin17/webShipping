@@ -34,13 +34,14 @@
                                 <th>رقم العميل</th>
                                 <th>اسم المورد</th>
                                 <th>رقم المورد</th>
-                                <th>محافظة الوصول</th>
-                                <th>محافظة الاستلام</th>
+                                {{-- <th>محافظة الوصول</th> --}}
+                                {{-- <th>محافظة الاستلام</th> --}}
                                 <th>عنوان تفصيلي</th>
                                 <th>المبلغ</th>
                                 <th>تاريخ اليوم</th>
                                 <th>الحجم</th>
                                 <th>الوزن</th>
+                                <th>ملاحظات</th>
                                 <th>ملاحظات</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
@@ -53,14 +54,15 @@
                                     <td>{{ $order->ClientPhone }}</td>
                                     <td>{{ $order->SupplierName }}</td>
                                     <td>{{ $order->SupplierPhone }}</td>
-                                    <td>{{ $order->originPlace }}</td>
-                                    <td>{{ $order->deliveryPlace }}</td>
+                                    {{-- <td>{{ $order->originPlace }}</td> --}}
+                                    {{-- <td>{{ $order->deliveryPlace }}</td> --}}
                                     <td>{{ $order->details_address }}</td>
-                                    <td>{{ $order->mount }}</td>
+                                    <td>{{ $order->total }}</td>
                                     <td>{{ $order->orderDate }}</td>
                                     <td>{{ $order->size }}</td>
                                     <td>{{ $order->weight }}</td>
-                                    <td>{{ Str::limit($order->notes, 10, '...') }}</td>
+                                    <td>{{ Str::limit($order->notes1, 10, '...') }}</td>
+                                    <td>{{ Str::limit($order->notes2, 10, '...') }}</td>
 
                                     {{-- <td>
                                         <a href="{{ route('orders.show', $order->id) }}">

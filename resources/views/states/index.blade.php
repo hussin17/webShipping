@@ -30,8 +30,8 @@
                     <table class="table table-hover mb-0 text-md-nowrap">
                         <thead>
                             <tr>
-                                <th>الدولة</th>
                                 <th>المحافظة</th>
+                                <th>قيمة الشحن</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
                             </tr>
@@ -39,8 +39,8 @@
                         <tbody>
                             @foreach ($states as $state)
                                 <tr>
-                                    <td>{{ $state->countryName }}</td>
-                                    <td>{{ $state->stateName }}</td>
+                                    <td>{{ $state->name }}</td>
+                                    <td>{{ $state->shippingValue }}</td>
                                     <td>
                                         <a href="{{ route('states.edit', $state->id) }}">
                                             <i class="fas fa-edit text-primary"></i>

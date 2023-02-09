@@ -34,18 +34,12 @@
                         <div class="">
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
-                                    <label>اختر الدولة: <span class="tx-danger">*</span></label>
-                                    <select name="countries" id="country-dropdown" class="form-control">
-                                        <option value="{{$city[0]->countryID}}">{{$city[0]->countryName}}</option>
-                                        @foreach ($countries as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="parsley-input col-md-6">
                                     <label>اختر المحافظة: <span class="tx-danger">*</span></label>
                                     <select class="form-control" name="state" id="state-dropdown">
-                                        <option value="{{$city[0]->stateID}}">{{$city[0]->stateName}}</option>
+                                        <option disabled value="{{$city[0]->stateID}}">{{$city[0]->stateName}}</option>
+                                        @foreach ($states as $state)
+                                            <option value="{{$state->id}}">{{$state->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="parsley-input col-md-6">
@@ -67,29 +61,6 @@
 
 <script>
     $(document).ready(function() {
-        // alert('Hello');
-        $('#country-dropdown').on('change', function() {
-            var country_id = this.value;
-            $("#state-dropdown").html('');
-            $.ajax({
-                url: "{{ url('/getStates') }}",
-                type: "POST",
-                data: {
-                    country_id: country_id,
-                    _token: '{{ csrf_token() }}'
-                },
-                dataType: 'json',
-                success: function(result) {
-                    $('#state-dropdown').html('<option value="">Select State</option>');
-                    $.each(result.states, function(key, value) {
-                        $("#state-dropdown").append('<option value="' + value.id +
-                            '">' + value.name + '</option>');
-                    });
-                    $('#city-dropdown').html(
-                    '<option value="">Select State First</option>');
-                }
-            });
-        });
         $('#state-dropdown').on('change', function() {
             var state_id = this.value;
             $("#city-dropdown").html('');

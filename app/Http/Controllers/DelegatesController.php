@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DelegatesController extends Controller
 {
@@ -13,7 +14,8 @@ class DelegatesController extends Controller
      */
     public function index()
     {
-        //
+        $delegates = DB::table('delegates')->get();
+        return view('delegates.index', compact('delegates'));
     }
 
     /**
@@ -23,7 +25,7 @@ class DelegatesController extends Controller
      */
     public function create()
     {
-        //
+        return view('delegates.create');
     }
 
     /**
@@ -34,7 +36,42 @@ class DelegatesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'nationalID' => 'required',
+            'age' => 'required',
+            'address' => 'required',
+            'personalPhoto' => 'required',
+            'cardImage' => 'required',
+            'phone1' => 'required',
+            'phone2' => 'required',
+            'phone3' => 'required',
+            'fileNumber' => 'required',
+            'tradeName' => 'required'
+        ]);
+
+        $personalPhoto = $request->file('personalPhoto')->getClientOriginalName();
+        $cardImage = $request->file('cardImage')->getClientOriginalName();
+        $request->file('personalPhoto')->storeAs('delegates', $personalPhoto, 'uploads');
+        $request->file('cardImage')->storeAs('delegates', $cardImage, 'uploads');
+
+        DB::table('delegates')->insert([
+            'name' => $request->name,
+            'nationalID' => $request->nationalID,
+            'age' => $request->age,
+            'address' => $request->address,
+            'personalPhoto' => $personalPhoto,
+            'cardImage' => $cardImage,
+            'phone1' => $request->phone1,
+            'phone2' => $request->phone2,
+            'phone3' => $request->phone3,
+            'notes1' => $request->notes1,
+            'notes2' => $request->notes2,
+            'fileNumber' => $request->fileNumber,
+            'tradeName' => $request->tradeName,
+        ]);
+
+        return redirect()->back()->with('success', "تمت الاضافة بنجاح");
     }
 
     /**
@@ -56,7 +93,8 @@ class DelegatesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $delegateData = DB::table('delegates')->find($id);
+        return view('delegates.edit', compact('delegateData'));
     }
 
     /**
@@ -68,7 +106,65 @@ class DelegatesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name'          => 'required',
+            'nationalID'    => 'required',
+            'age'           => 'required',
+            'address'       => 'required',
+            'personalPhoto' => 'required',
+            'cardImage'     => 'required',
+            'phone1'        => 'required',
+            'phone2'        => 'required',
+            'phone3'        => 'required',
+            'fileNumber'    => 'required',
+            'tradeName'     => 'required'
+        ]);
+
+        // dd($request->file());
+
+        if ( $request->file('personalPhoto') && $request->file('cardImage') )
+        {
+            $personalPhoto = $request->file('personalPhoto')->getClientOriginalName();
+            $cardImage = $request->file('cardImage')->getClientOriginalName();
+            $request->file('personalPhoto')->storeAs('delegates', $personalPhoto, 'uploads');
+            $request->file('cardImage')->storeAs('delegates', $cardImage, 'uploads');
+
+            DB::table('delegates')->where('id', $id)->update([
+                'name'              => $request->name,
+                'nationalID'        => $request->nationalID,
+                'age'               => $request->age,
+                'address'           => $request->address,
+                'personalPhoto'     => $personalPhoto,
+                'cardImage'         => $cardImage,
+                'phone1'            => $request->phone1,
+                'phone2'            => $request->phone2,
+                'phone3'            => $request->phone3,
+                'notes1'            => $request->notes1,
+                'notes2'            => $request->notes2,
+                'fileNumber'        => $request->fileNumber,
+                'tradeName'         => $request->tradeName
+            ]);
+        }
+        else
+        {
+            DB::table('delegates')->where('id', $id)->update([
+                'name'              => $request->name,
+                'nationalID'        => $request->nationalID,
+                'age'               => $request->age,
+                'address'           => $request->address,
+                'phone1'            => $request->phone1,
+                'phone2'            => $request->phone2,
+                'phone3'            => $request->phone3,
+                'notes1'            => $request->notes1,
+                'notes2'            => $request->notes2,
+                'fileNumber'        => $request->fileNumber,
+                'tradeName'         => $request->tradeName
+            ]);
+        }
+
+
+        return redirect()->back()->with('success', "تمت الاضافة بنجاح");
+
     }
 
     /**
@@ -79,6 +175,7 @@ class DelegatesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('delegates')->delete($id);
+        return redirect()->back()->with('success', "تم الحذف بنجاح");
     }
 }

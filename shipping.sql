@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 29, 2023 at 12:38 AM
+-- Generation Time: Feb 09, 2023 at 12:00 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -21,201 +21,6 @@ SET time_zone = "+00:00";
 -- Database: `shipping`
 --
 
-DELIMITER $$
---
--- Procedures
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getClientById` (IN `id` INT)   SELECT 
-	clients.id,
-    clients.name,
-    clients.phone,
-    clients.city_id,
-    dealing_type.id AS dealing_id,
-    dealing_type.name AS dealingType,
-    lk_country.name AS countryName,
-    lk_state.name AS stateName,
-    lk_city.name AS cityName
-from 
-	clients
-    LEFT OUTER join dealing_type
-    ON 
-    clients.dealing_id = dealing_type.id
-    LEFT OUTER JOIN lk_city
-    ON
-    clients.city_id = lk_city.id
-    LEFT OUTER join lk_state
-    ON
-    lk_state.id = lk_city.state_id
-    LEFT OUTER JOIN lk_country
-    ON
-    lk_state.country_id = lk_country.id
-where clients.id = id$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getClients` ()   SELECT 
-	clients.id,
-    clients.name,
-    clients.phone,
-    dealing_type.name AS dealingType,
-    lk_country.name AS countryName,
-    lk_state.name AS stateName,
-    lk_city.name AS cityName
-from 
-	clients
-    LEFT OUTER JOIN dealing_type
-    ON 
-    clients.dealing_id = dealing_type.id
-    LEFT OUTER JOIN lk_city
-    ON
-    clients.city_id = lk_city.id
-    left outer join lk_state
-    ON
-    lk_state.id = lk_city.state_id
-    LEFT OUTER JOIN lk_country
-    ON
-    lk_state.country_id = lk_country.id$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `lk_states_countries` ()   select 
-    lk_state.id,
-    lk_state.name AS stateName,
-    lk_country.name AS countryName
-FROM
-    lk_country
-    INNER JOIN lk_state
-    ON
-    lk_country.id = lk_state.country_id$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_EditCityByID` (IN `id` INT)   select 
-	lk_city.id AS cityID,
-    lk_city.name AS cityName,
-    lk_state.id AS stateID,
-    lk_state.name AS stateName,
-    lk_country.id AS countryID,
-    lk_country.name AS countryName
-FROM
-	lk_city
-    INNER JOIN lk_state
-    ON
-    lk_state.id = lk_city.state_id
-    inner join lk_country
-    ON
-    lk_country.id = lk_state.country_id
-WHERE
-	lk_city.id = id$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_GetCities` ()   select 
-	lk_city.id,
-    lk_city.name,
-    lk_state.name AS StateName,
-    lk_country.name AS CountryName
-FROM
-	lk_city
-    inner JOIN lk_state
-    ON
-    lk_state.id = lk_city.state_id
-    INNER JOIN lk_country
-    ON
-    lk_state.country_id = lk_country.id$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_getOrderById` (IN `id` INT)   select 
-	orders.id,
-    orders.size,
-    orders.weight,
-    orders.notes,
-    orders.orderDate,
-    orders.details_address,
-    orders.mount,
-    orders.client_id,
-    orders.supplier_id,
-    clients.name AS ClientName,
-    clients.phone AS ClientPhone,
-    suppliers.name AS SupplierName,
-    suppliers.phone AS SupplierPhone,
-    originplace.id AS originId,
-    deliveryplace.id AS deliveryId,
-    originplace.name AS originPlace,
-    deliveryplace.name AS deliveryPlace
-from 
-	orders
-    left join clients
-    on
-    clients.id = orders.client_id
-    left join suppliers
-    on 
-    suppliers.id = orders.supplier_id
-    left join lk_city AS originplace
-    on
-    orders.origin_place = originplace.id
-    left join lk_city AS deliveryplace
-    on
-    orders.delivery_place = deliveryplace.id
-where orders.id = id$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_getOrderData` ()   select 
-	orders.id,
-	orders.orderDate,
-    clients.name AS clientName,
-    clients.phone AS clientPhone,
-    suppliers.name AS supplierName,
-    suppliers.phone AS supplierPhone,
-    lk_country.name AS countryName,
-    lk_state.name AS stateName,
-    lk_city.name AS cityName,
-    orders.delivery_place,
-    orders.origin_place,
-    orders.mount
-FROM
-	orders
-    inner JOIN clients
-    ON
-    orders.client_id = clients.id
-    inner JOIN suppliers
-    ON
-    orders.supplier_id = suppliers.id
-    inner join lk_city
-    ON
-    orders.delivery_place = lk_city.id
-    OR
-    orders.origin_place = lk_city.id
-    inner join lk_state
-    ON 
-    lk_state.id = lk_city.state_id
-    inner JOIN lk_country
-    ON
-    lk_state.country_id = lk_country.id
-    
-    WHERE lk_city.id = 3$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_getOrders` ()   select 
-	orders.id,
-    orders.size,
-    orders.weight,
-    orders.notes,
-    orders.orderDate,
-    orders.details_address,
-    orders.mount,
-    clients.name AS ClientName,
-    clients.phone AS ClientPhone,
-    suppliers.name AS SupplierName,
-    suppliers.phone AS SupplierPhone,
-    originplace.name AS originPlace,
-    deliveryplace.name AS deliveryPlace
-from 
-	orders
-    left join clients
-    on
-    clients.id = orders.client_id
-    left join suppliers
-    on 
-    suppliers.id = orders.supplier_id
-    left join lk_city AS originplace
-    on
-    orders.origin_place = originplace.id
-    left join lk_city AS deliveryplace
-    on
-    orders.delivery_place = deliveryplace.id$$
-
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
@@ -225,7 +30,6 @@ DELIMITER ;
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `dealing_id` int(11) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `city_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -234,28 +38,8 @@ CREATE TABLE `clients` (
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `name`, `dealing_id`, `phone`, `city_id`) VALUES
-(2, 'Osama', 3, '01061093957', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `dealing_type`
---
-
-CREATE TABLE `dealing_type` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `dealing_type`
---
-
-INSERT INTO `dealing_type` (`id`, `name`) VALUES
-(1, 'نوع التعامل 1'),
-(2, 'نوع التعامل 2'),
-(3, 'نوع التعامل 3');
+INSERT INTO `clients` (`id`, `name`, `phone`, `city_id`) VALUES
+(2, 'اسامة محمد المهدي', '01061093957', 5);
 
 -- --------------------------------------------------------
 
@@ -265,8 +49,27 @@ INSERT INTO `dealing_type` (`id`, `name`) VALUES
 
 CREATE TABLE `delegates` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `nationalID` varchar(50) NOT NULL,
+  `age` int(11) NOT NULL,
+  `address` text NOT NULL,
+  `personalPhoto` text NOT NULL,
+  `cardImage` text NOT NULL,
+  `phone1` varchar(15) NOT NULL,
+  `phone2` varchar(15) NOT NULL,
+  `phone3` varchar(15) NOT NULL,
+  `notes1` text NOT NULL,
+  `notes2` text NOT NULL,
+  `fileNumber` int(11) NOT NULL,
+  `tradeName` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `delegates`
+--
+
+INSERT INTO `delegates` (`id`, `name`, `nationalID`, `age`, `address`, `personalPhoto`, `cardImage`, `phone1`, `phone2`, `phone3`, `notes1`, `notes2`, `fileNumber`, `tradeName`) VALUES
+(9, 'اسامة محمد المهدي', '30109300118453', 21, 'asdf', 'c-d-x-PDX_a_82obo-unsplash.jpg', 'federico-di-dio-photography-QI6DitsEmsI-unsplash.jpg', '1592356', '1592356', '1592356', 'sfdasdfa', 'sadfasdfas', 21, 'Code2');
 
 -- --------------------------------------------------------
 
@@ -287,6 +90,32 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `getcities`
+-- (See below for the actual view)
+--
+CREATE TABLE `getcities` (
+`id` int(11)
+,`name` varchar(50)
+,`StateName` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `getclients`
+-- (See below for the actual view)
+--
+CREATE TABLE `getclients` (
+`id` int(11)
+,`name` varchar(255)
+,`phone` varchar(15)
+,`cityName` varchar(50)
+,`stateName` varchar(50)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `lk_city`
 --
 
@@ -301,27 +130,9 @@ CREATE TABLE `lk_city` (
 --
 
 INSERT INTO `lk_city` (`id`, `name`, `state_id`) VALUES
-(1, 'ميت غمر', 2),
-(3, 'المنصورة', 3);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `lk_country`
---
-
-CREATE TABLE `lk_country` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `lk_country`
---
-
-INSERT INTO `lk_country` (`id`, `name`) VALUES
-(2, 'مصر'),
-(3, 'السعودية');
+(1, 'ميت غمر', 3),
+(3, 'المنصورة', 3),
+(5, 'طنامل الشرقي', 3);
 
 -- --------------------------------------------------------
 
@@ -332,18 +143,18 @@ INSERT INTO `lk_country` (`id`, `name`) VALUES
 CREATE TABLE `lk_state` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `country_id` int(11) NOT NULL
+  `shippingValue` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `lk_state`
 --
 
-INSERT INTO `lk_state` (`id`, `name`, `country_id`) VALUES
-(2, 'الرياض', 3),
-(3, 'الدقهليه', 2),
-(4, 'الشرقية', 2),
-(5, 'المنوفيه', 2);
+INSERT INTO `lk_state` (`id`, `name`, `shippingValue`) VALUES
+(3, 'الدقهليه', 30),
+(4, 'الشرقية', 0),
+(5, 'المنوفيه', 0),
+(7, 'بور سعيد', 250);
 
 -- --------------------------------------------------------
 
@@ -378,24 +189,25 @@ CREATE TABLE `orders` (
   `client_id` int(11) NOT NULL,
   `supplier_id` int(11) NOT NULL,
   `orderDate` date NOT NULL DEFAULT current_timestamp(),
-  `origin_place` int(11) NOT NULL,
-  `delivery_place` int(11) NOT NULL,
   `details_address` text DEFAULT NULL,
-  `mount` int(11) NOT NULL,
   `size` int(11) DEFAULT NULL,
   `weight` int(11) DEFAULT NULL,
-  `notes` text DEFAULT NULL
+  `notes1` text DEFAULT NULL,
+  `notes2` text NOT NULL,
+  `orderValue` int(11) NOT NULL,
+  `shippingValue` int(11) NOT NULL,
+  `total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `client_id`, `supplier_id`, `orderDate`, `origin_place`, `delivery_place`, `details_address`, `mount`, `size`, `weight`, `notes`) VALUES
-(1, 2, 3, '2023-01-27', 1, 3, 'عنوان تفصيلي', 250, 10, 30, 'ملاحظات'),
-(2, 2, 3, '2023-01-28', 1, 3, NULL, 236, 120, 250, NULL),
-(4, 2, 2, '2023-01-28', 1, 1, NULL, 230, NULL, NULL, NULL),
-(5, 2, 2, '2023-01-28', 3, 3, NULL, 256, NULL, NULL, 'Notes');
+INSERT INTO `orders` (`id`, `client_id`, `supplier_id`, `orderDate`, `details_address`, `size`, `weight`, `notes1`, `notes2`, `orderValue`, `shippingValue`, `total`) VALUES
+(2, 2, 3, '2023-01-28', NULL, 120, 250, NULL, '', 0, 0, 0),
+(4, 2, 2, '2023-01-28', NULL, NULL, NULL, NULL, '', 0, 0, 0),
+(5, 2, 2, '2023-01-28', NULL, NULL, NULL, 'Notes', '', 0, 0, 0),
+(6, 2, 2, '2023-01-30', NULL, NULL, NULL, NULL, '', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -404,19 +216,6 @@ INSERT INTO `orders` (`id`, `client_id`, `supplier_id`, `orderDate`, `origin_pla
 -- (See below for the actual view)
 --
 CREATE TABLE `ordersdata` (
-`id` int(11)
-,`size` int(11)
-,`weight` int(11)
-,`notes` text
-,`orderDate` date
-,`details_address` text
-,`mount` int(11)
-,`ClientName` varchar(255)
-,`ClientPhone` varchar(15)
-,`SupplierName` varchar(255)
-,`SupplierPhone` varchar(15)
-,`originPlace` varchar(50)
-,`deliveryPlace` varchar(50)
 );
 
 -- --------------------------------------------------------
@@ -458,16 +257,23 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `suppliers` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `phone` varchar(15) NOT NULL
+  `personalPhone1` varchar(15) NOT NULL,
+  `personalPhone2` varchar(15) NOT NULL,
+  `tradePhone1` varchar(15) NOT NULL,
+  `tradePhone2` varchar(15) NOT NULL,
+  `personalAddress` int(11) NOT NULL,
+  `tradeAddress` int(11) NOT NULL,
+  `recordNumber` int(11) NOT NULL,
+  `tradeName` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `suppliers`
 --
 
-INSERT INTO `suppliers` (`id`, `name`, `phone`) VALUES
-(2, 'mohamed', '01061093957'),
-(3, 'حسين', '01061093957');
+INSERT INTO `suppliers` (`id`, `name`, `personalPhone1`, `personalPhone2`, `tradePhone1`, `tradePhone2`, `personalAddress`, `tradeAddress`, `recordNumber`, `tradeName`) VALUES
+(2, 'mohamed2', '0106109395710', '0106109395710', '0106109395710', '0106109395710', 1, 5, 5, 'Code2'),
+(4, 'Admin', '1592356', '1592356', '1592356', '1592356', 1, 3, 250, 'Code');
 
 -- --------------------------------------------------------
 
@@ -491,8 +297,26 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@admin.com', NULL, '$2y$10$egymOTc3PN1k/PEOkwwDGuLfRRQ3VboTUH32GFkHX8kIjkrB.jZj2', NULL, '2023-01-15 20:46:54', '2023-01-15 20:46:54'),
-(2, 'Code', 'code@code.com', NULL, '$2y$10$egymOTc3PN1k/PEOkwwDGuLfRRQ3VboTUH32GFkHX8kIjkrB.jZj2', NULL, '2023-01-26 18:07:21', '2023-01-26 18:07:21');
+(1, 'Admin', 'admin@admin.com', NULL, '$2y$10$egymOTc3PN1k/PEOkwwDGuLfRRQ3VboTUH32GFkHX8kIjkrB.jZj2', NULL, '2023-01-15 18:46:54', '2023-01-15 18:46:54'),
+(2, 'Code', 'code@code.com', NULL, '$2y$10$egymOTc3PN1k/PEOkwwDGuLfRRQ3VboTUH32GFkHX8kIjkrB.jZj2', NULL, '2023-01-26 16:07:21', '2023-01-26 16:07:21');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `getcities`
+--
+DROP TABLE IF EXISTS `getcities`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getcities`  AS   (select `lk_city`.`id` AS `id`,`lk_city`.`name` AS `name`,`lk_state`.`name` AS `StateName` from (`lk_city` join `lk_state` on(`lk_city`.`state_id` = `lk_state`.`id`)))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `getclients`
+--
+DROP TABLE IF EXISTS `getclients`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getclients`  AS   (select `clients`.`id` AS `id`,`clients`.`name` AS `name`,`clients`.`phone` AS `phone`,`lk_city`.`name` AS `cityName`,`lk_state`.`name` AS `stateName` from ((`clients` left join `lk_city` on(`lk_city`.`id` = `clients`.`city_id`)) left join `lk_state` on(`lk_state`.`id` = `lk_city`.`state_id`)))  ;
 
 -- --------------------------------------------------------
 
@@ -514,16 +338,11 @@ ALTER TABLE `clients`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `dealing_type`
---
-ALTER TABLE `dealing_type`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `delegates`
 --
 ALTER TABLE `delegates`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nationalID` (`nationalID`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -536,12 +355,6 @@ ALTER TABLE `failed_jobs`
 -- Indexes for table `lk_city`
 --
 ALTER TABLE `lk_city`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `lk_country`
---
-ALTER TABLE `lk_country`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -597,19 +410,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `dealing_type`
---
-ALTER TABLE `dealing_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `delegates`
 --
 ALTER TABLE `delegates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -621,19 +428,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `lk_city`
 --
 ALTER TABLE `lk_city`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `lk_country`
---
-ALTER TABLE `lk_country`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `lk_state`
 --
 ALTER TABLE `lk_state`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -645,7 +446,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -657,7 +458,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -10,7 +10,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل الدولة</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل المحافظة</h2>
             </div>
         </div>
     </div>
@@ -34,19 +34,15 @@
                         <div class="">
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
-                                    <label>اختر الدولة: <span class="tx-danger">*</span></label>
-                                    <select name="countries" class="form-control" id="">
-                                        <option value="{{$state->country_id}}">
-                                            {{$countries[0]->name}}
-                                        </option>
-                                        @foreach (DB::table('lk_country')->get() as $item)
-                                            <option  value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <label>اسم المحافظة: <span class="tx-danger">*</span></label>
+                                    <input autofocus value="{{ $state->name }}" class="form-control" name="name"
+                                        required="true" type="text">
                                 </div>
+                            </div>
+                            <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
                                     <label>اسم المحافظة: <span class="tx-danger">*</span></label>
-                                    <input autofocus value="{{ $state->name }}" class="form-control" name="name" placeholder="اسم المحافظة"
+                                    <input autofocus value="{{ $state->shippingValue }}" class="form-control" name="shippingValue"
                                         required="true" type="text">
                                 </div>
                             </div>

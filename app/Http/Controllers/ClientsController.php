@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 
 class ClientsController extends Controller
 {
@@ -14,8 +17,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        $clients = DB::select('call getClients()');
-        // dd($clients);
+        $clients = DB::table('getClients')->get();
         return view('clients.index', compact('clients'));
     }
 
@@ -27,8 +29,7 @@ class ClientsController extends Controller
     public function create()
     {
         $getCities = DB::select('call SP_GetCities()');
-        $dealingTypes = DB::table('dealing_type')->get();
-        return view('clients.create', compact('getCities', 'dealingTypes'));
+        return view('clients.create', compact('getCities'));
     }
 
     /**
@@ -42,15 +43,13 @@ class ClientsController extends Controller
         $this->validate($request, [
             'name' => ['required', 'unique:clients'],
             'phone' => 'required',
-            'address' => 'required',
-            'dealing_id' => 'required',
+            'address' => 'required'
         ]);
 
         DB::table('clients')->insert([
             'name' => $request->name,
             'city_id' => $request->address,
-            'phone' => $request->phone,
-            'dealing_id' => $request->dealing_id
+            'phone' => $request->phone
         ]);
 
         return redirect()->back()->with('success', "تمت الاضافة بنجاح");
@@ -76,12 +75,14 @@ class ClientsController extends Controller
     public function edit($id)
     {
         // Get ClientData
-        $clientData = DB::select("call getClientById($id)");
-        // Get Cities
-        $cities = DB::select('call SP_getCities()');
-        // Get DealingType
-        $dealingTypes = DB::table('dealing_type')->get();
-        return view('clients.edit', compact('clientData', 'cities', 'dealingTypes'));
+        $clientData = DB::table('clients')
+            ->join('lk_city', 'clients.city_id', '=', 'lk_city.id', 'left')
+            ->join('lk_state', 'lk_city.state_id', '=', 'lk_state.id', 'left')
+            ->where('clients.id', $id)
+            ->get(['clients.id', 'clients.name', 'clients.phone', 'lk_city.name as cityName', 'lk_city.id AS city_id', 'lk_state.name AS stateName']);
+
+        $cities = DB::table('getCities')->get();
+        return view('clients.edit', compact('clientData', 'cities'));
     }
 
     /**
@@ -96,15 +97,13 @@ class ClientsController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'phone' => 'required',
-            'address' => 'required',
-            'dealing_id' => 'required'
+            'address' => 'required'
         ]);
 
 
         DB::table('clients')->where('id', $id)->update([
             'name' => $request->name,
             'phone' => $request->phone,
-            'dealing_id' => $request->dealing_id,
             'city_id' => $request->address
         ]);
 

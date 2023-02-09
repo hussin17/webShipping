@@ -14,7 +14,7 @@ class CitiesController extends Controller
      */
     public function index()
     {
-        $cities = DB::select('Call SP_GetCities()');
+        $cities = DB::table('getCities')->get();
         // dd($cities);
         return view('cities.index', compact('cities'));
     }
@@ -26,16 +26,8 @@ class CitiesController extends Controller
      */
     public function create()
     {
-        $data['countries'] = DB::table('lk_country')->get(["name", "id"]);
-        return view('cities.create', $data);
-    }
-
-
-    public function getStates(Request $request)
-    {
-        $data['states'] = DB::table('lk_state')->where("country_id", $request->country_id)
-            ->get();
-        return response()->json($data);
+        $states = DB::table('lk_state')->get();
+        return view('cities.create', compact('states'));
     }
 
     /**
@@ -48,7 +40,6 @@ class CitiesController extends Controller
     {
         $this->validate($request, [
             'name' => ['required', 'unique:lk_city'],
-            'country' => 'required',
             'state' => 'required',
         ]);
 
@@ -79,12 +70,9 @@ class CitiesController extends Controller
      */
     public function edit($id)
     {
-        $city = DB::select("Call SP_EditCityByID($id)");
-        $countries = DB::table('lk_country')->get();
+        $city = DB::table('lk_city')->join('lk_state', 'lk_city.state_id', '=', 'lk_state.id', 'left')->where('lk_city.id', $id)->get(['lk_city.id AS cityID', 'lk_city.name AS cityName', 'lk_state.id AS stateID', 'lk_state.name AS stateName', 'lk_state.name AS stateName']);
         $states = DB::table('lk_state')->get();
-        // dd($city[0]);
-
-        return view('cities.edit', compact('city', 'countries', 'states'));
+        return view('cities.edit', compact('city', 'states'));
     }
 
     /**
@@ -97,9 +85,8 @@ class CitiesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => ['required', 'unique:lk_city'],
+            'name' => ['required'],
             'state' => 'required',
-            'countries' => 'required',
         ]);
 
 

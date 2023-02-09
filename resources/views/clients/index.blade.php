@@ -33,7 +33,6 @@
                                 <th>اسم العميل</th>
                                 <th>رقم تليفونه</th>
                                 <th>عنوانه</th>
-                                <th>نوع التعامل</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
                             </tr>
@@ -43,8 +42,7 @@
                                 <tr>
                                     <td>{{ $client->name }}</td>
                                     <td>{{ $client->phone }}</td>
-                                    <td>{{ $client->countryName }} - {{ $client->stateName }} - {{ $client->cityName }}</td>
-                                    <td>{{ $client->dealingType }}</td>
+                                    <td>{{ $client->stateName }} - {{ $client->cityName }}</td>
                                     <td>
                                         <a href="{{ route('clients.edit', $client->id) }}">
                                             <i class="fas fa-edit text-primary"></i>

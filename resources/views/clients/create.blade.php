@@ -34,30 +34,26 @@
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
                                     <label>اسم العميل: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="name" placeholder="ادخل اسم العميل"
+                                    <input autofocus class="form-control" name="name"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم العميل: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="phone" placeholder="ادخل رقم العميل"
+                                    <input autofocus class="form-control" name="phone"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>عنوان العميل: <span class="tx-danger">*</span></label>
                                     <select name="address" id="" required="true" class="form-control">
+                                        <option value="">اختر...</option>
                                         @foreach ($getCities as $address)
-                                            <option value="{{$address->id}}">{{$address->CountryName}} - {{$address->StateName}} - {{$address->name}}</option>
+                                            <option value="{{$address->id}}">{{$address->StateName}} - {{$address->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="parsley-input col-md-6">
-                                    <label>نوع التعامل: <span class="tx-danger">*</span></label>
-                                    <select name="dealing_id" id="" required="true" class="form-control">
-                                        @foreach ($dealingTypes as $type)
-                                            <option value="{{$type->id}}">{{$type->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                @error('address')
+                                    <div class="alert alert-danger">اختر العنوان</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="mg-t-30">
