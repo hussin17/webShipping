@@ -34,17 +34,22 @@
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
                                     <label>اسم المندوب ثلاثي<span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="name"
+                                    <input autofocus class="form-control" name="name" autocomplete="false"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم البطاقة: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="nationalID"
+                                    <input class="form-control" name="nationalID" autocomplete="false"
                                         required="true" type="text">
+                                        @error('nationalID')
+                                            <div class="alert alert-danger">
+                                                يرجى ادخال رقم البطاقة صحيح
+                                            </div>
+                                        @enderror
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>العمر: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="age"
+                                    <input class="form-control" name="age" autocomplete="false"
                                         required="true" type="number">
                                 </div>
                                 <div class="parsley-input col-md-6">
@@ -64,17 +69,17 @@
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المندوب الشخصي1: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="phone1"
+                                    <input class="form-control" name="phone1" autocomplete="false"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المندوب الشخصي2: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="phone2"
+                                    <input class="form-control" name="phone2" autocomplete="false"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم فون اقرب الاقارب: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="phone3"
+                                    <input class="form-control" name="phone3" autocomplete="false"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
@@ -87,11 +92,11 @@
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم الملف: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" type="number" name="fileNumber">
+                                    <input class="form-control" type="number" autocomplete="false" name="fileNumber">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>الاسم التجاري: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" type="text" name="tradeName">
+                                    <input class="form-control" type="text" autocomplete="false" name="tradeName">
                                 </div>
                             </div>
                         </div>

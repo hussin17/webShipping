@@ -27,7 +27,7 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('delegates.update', $delegateData->id) }}" method="POST" class="parsley-style-1"
+                    <form action="{{ route('delegates.update', $delegateData->id) }}" method="POST" class="parsley-style-1" enctype="multipart/form-data"
                         id="selectForm2" name="selectForm2">
                         @csrf
                         @method('PUT')
@@ -55,12 +55,12 @@
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>الصورة الشخصية: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="personalPhoto"
+                                    <input class="form-control" name="personalPhoto" value="{{$delegateData->personalPhoto}}"
                                         required="true" type="file">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>صورة البطاقة: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="cardImage"
+                                    <input class="form-control" name="cardImage" value="{{$delegateData->cardImage}}"
                                         required="true" type="file">
                                 </div>
                                 <div class="parsley-input col-md-6">

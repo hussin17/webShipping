@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DelegatesController extends Controller
 {
@@ -38,7 +39,7 @@ class DelegatesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'nationalID' => 'required',
+            'nationalID' => ['required', 'unique:delegates'],
             'age' => 'required',
             'address' => 'required',
             'personalPhoto' => 'required',
@@ -50,26 +51,42 @@ class DelegatesController extends Controller
             'tradeName' => 'required'
         ]);
 
-        $personalPhoto = $request->file('personalPhoto')->getClientOriginalName();
-        $cardImage = $request->file('cardImage')->getClientOriginalName();
-        $request->file('personalPhoto')->storeAs('delegates', $personalPhoto, 'uploads');
-        $request->file('cardImage')->storeAs('delegates', $cardImage, 'uploads');
+        if ($request->file()) {
+            $personalPhoto = $request->file('personalPhoto')->getClientOriginalName();
+            $cardImage = $request->file('cardImage')->getClientOriginalName();
+            $request->file('personalPhoto')->storeAs('delegates', $personalPhoto, 'uploads');
+            $request->file('cardImage')->storeAs('delegates', $cardImage, 'uploads');
 
-        DB::table('delegates')->insert([
-            'name' => $request->name,
-            'nationalID' => $request->nationalID,
-            'age' => $request->age,
-            'address' => $request->address,
-            'personalPhoto' => $personalPhoto,
-            'cardImage' => $cardImage,
-            'phone1' => $request->phone1,
-            'phone2' => $request->phone2,
-            'phone3' => $request->phone3,
-            'notes1' => $request->notes1,
-            'notes2' => $request->notes2,
-            'fileNumber' => $request->fileNumber,
-            'tradeName' => $request->tradeName,
-        ]);
+            DB::table('delegates')->insert([
+                'name' => $request->name,
+                'nationalID' => $request->nationalID,
+                'age' => $request->age,
+                'address' => $request->address,
+                'personalPhoto' => $personalPhoto,
+                'cardImage' => $cardImage,
+                'phone1' => $request->phone1,
+                'phone2' => $request->phone2,
+                'phone3' => $request->phone3,
+                'notes1' => $request->notes1,
+                'notes2' => $request->notes2,
+                'fileNumber' => $request->fileNumber,
+                'tradeName' => $request->tradeName,
+            ]);
+        } else {
+            DB::table('delegates')->insert([
+                'name'          => $request->name,
+                'nationalID'    => $request->nationalID,
+                'age'           => $request->age,
+                'address'       => $request->address,
+                'phone1'        => $request->phone1,
+                'phone2'        => $request->phone2,
+                'phone3'        => $request->phone3,
+                'notes1'        => $request->notes1,
+                'notes2'        => $request->notes2,
+                'fileNumber'    => $request->fileNumber,
+                'tradeName'     => $request->tradeName,
+            ]);
+        }
 
         return redirect()->back()->with('success', "تمت الاضافة بنجاح");
     }
@@ -106,6 +123,7 @@ class DelegatesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request);
         $this->validate($request, [
             'name'          => 'required',
             'nationalID'    => 'required',
@@ -122,8 +140,7 @@ class DelegatesController extends Controller
 
         // dd($request->file());
 
-        if ( $request->file('personalPhoto') && $request->file('cardImage') )
-        {
+        if ($request->file('personalPhoto') && $request->file('cardImage')) {
             $personalPhoto = $request->file('personalPhoto')->getClientOriginalName();
             $cardImage = $request->file('cardImage')->getClientOriginalName();
             $request->file('personalPhoto')->storeAs('delegates', $personalPhoto, 'uploads');
@@ -144,9 +161,7 @@ class DelegatesController extends Controller
                 'fileNumber'        => $request->fileNumber,
                 'tradeName'         => $request->tradeName
             ]);
-        }
-        else
-        {
+        } else {
             DB::table('delegates')->where('id', $id)->update([
                 'name'              => $request->name,
                 'nationalID'        => $request->nationalID,
@@ -161,10 +176,7 @@ class DelegatesController extends Controller
                 'tradeName'         => $request->tradeName
             ]);
         }
-
-
-        return redirect()->back()->with('success', "تمت الاضافة بنجاح");
-
+        return redirect()->back()->with('success', "تم التعديل بنجاح");
     }
 
     /**
@@ -175,7 +187,9 @@ class DelegatesController extends Controller
      */
     public function destroy($id)
     {
+        // get Path of my photos
         DB::table('delegates')->delete($id);
+        Storage::disk('public_path')->delete($_FILES['personalPhoto']);
         return redirect()->back()->with('success', "تم الحذف بنجاح");
     }
 }
