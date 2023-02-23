@@ -7,8 +7,10 @@ use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\DelegatesController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatesController;
 use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -34,11 +36,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['register' => false]);
 // Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::middleware(['auth'])->group(function () {
-    Auth::routes(['reqister' => true]);
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RoleController::class);
     Route::get('/index', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -56,10 +59,5 @@ Route::middleware(['auth'])->group(function () {
 
     // delegates
     Route::resource('/delegates', DelegatesController::class);
-
-    // Orders
-    // Route::resource('/orders', OrdersController::class);
-
-    // Route::get('/{page}', [AdminController::class, 'index']);
 });
 

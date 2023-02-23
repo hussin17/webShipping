@@ -10,7 +10,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل بيانات المورد</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل بيانات المندوب</h2>
             </div>
         </div>
     </div>
@@ -36,47 +36,56 @@
                                 <div class="parsley-input col-md-6">
                                     <label>اسم المندوب ثلاثي<span class="tx-danger">*</span></label>
                                     <input autofocus class="form-control" name="name" value="{{$delegateData->name}}"
-                                        required="true" type="text">
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم البطاقة: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="nationalID" value="{{$delegateData->nationalID}}"
-                                        required="true" type="text">
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>العمر: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="age" value="{{$delegateData->age}}"
-                                        required="true" type="number">
+                                        type="number">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>العنوان تفصيلي: <span class="tx-danger">*</span></label>
-                                    <textarea class="form-control" name="address" placeholder="المحافظة - المدينة - القرية - الشارع"
-                                        required="true">{{ $delegateData->address }}</textarea>
+                                    <textarea class="form-control" name="address">{{ $delegateData->address }}</textarea>
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>الصورة الشخصية: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="personalPhoto" value="{{$delegateData->personalPhoto}}"
-                                        required="true" type="file">
+                                        type="file">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>صورة البطاقة: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="cardImage" value="{{$delegateData->cardImage}}"
-                                        required="true" type="file">
+                                        type="file">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المندوب الشخصي1: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="phone1" value="{{$delegateData->phone1}}"
-                                        required="true" type="text">
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المندوب الشخصي2: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="phone2" value="{{$delegateData->phone2}}"
-                                        required="true" type="text">
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم فون اقرب الاقارب: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="phone3" value="{{$delegateData->phone3}}"
-                                        required="true" type="text">
+                                        type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>عنوانه: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="nAddress" value="{{$delegateData->nAddress}}"
+                                        type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>صفته: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="adjective" value="{{$delegateData->adjective}}"
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>1ملاحظات: <span class="tx-danger">*</span></label>

@@ -28,7 +28,7 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        $getCities = DB::select('call SP_GetCities()');
+        $getCities = DB::table('getCities')->get();
         return view('clients.create', compact('getCities'));
     }
 

@@ -35,13 +35,13 @@
                                 <th>العمر</th>
                                 <th>العنوان بالتفصيل</th>
                                 <th>صورة شخصية</th>
-                                <th>صورة البطاقة</th>
                                 <th>رقم فون شخصي1-2</th>
                                 <th>رقم فون اقرب الاقارب</th>
                                 <th>ملاحظات1</th>
                                 <th>ملاحظات2</th>
                                 <th>رقم الملف</th>
                                 <th>اسم تجاري</th>
+                                <th>التفاصيل</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
                             </tr>
@@ -56,15 +56,17 @@
                                     <td>
                                         <img src="uploads/delegates/{{ $delegate->personalPhoto }}" alt="">
                                     </td>
-                                    <td>
-                                        <img src="uploads/delegates/{{ $delegate->cardImage }}" alt="">
-                                    </td>
                                     <td>{{ $delegate->phone1 }} - {{ $delegate->phone2 }}</td>
                                     <td>{{ $delegate->phone3 }}</td>
                                     <td>{{ $delegate->notes1 }}</td>
                                     <td>{{ $delegate->notes2 }}</td>
                                     <td>{{ $delegate->fileNumber }}</td>
                                     <td>{{ $delegate->tradeName }}</td>
+                                    <td>
+                                        <a href="{{route('delegates.show', $delegate->id)}}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a href="{{ route('delegates.edit', $delegate->id) }}">
                                             <i class="fas fa-edit text-primary"></i>

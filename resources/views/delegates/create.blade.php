@@ -35,12 +35,12 @@
                                 <div class="parsley-input col-md-6">
                                     <label>اسم المندوب ثلاثي<span class="tx-danger">*</span></label>
                                     <input autofocus class="form-control" name="name" autocomplete="false"
-                                        required="true" type="text">
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم البطاقة: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="nationalID" autocomplete="false"
-                                        required="true" type="text">
+                                        type="text">
                                         @error('nationalID')
                                             <div class="alert alert-danger">
                                                 يرجى ادخال رقم البطاقة صحيح
@@ -50,37 +50,47 @@
                                 <div class="parsley-input col-md-6">
                                     <label>العمر: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="age" autocomplete="false"
-                                        required="true" type="number">
+                                        type="number">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>العنوان تفصيلي: <span class="tx-danger">*</span></label>
                                     <textarea class="form-control" name="address" placeholder="المحافظة - المدينة - القرية - الشارع"
-                                        required="true"></textarea>
+                                        ></textarea>
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>الصورة الشخصية: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="personalPhoto"
-                                        required="true" type="file">
+                                        type="file">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>صورة البطاقة: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="cardImage"
-                                        required="true" type="file">
+                                        type="file">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المندوب الشخصي1: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="phone1" autocomplete="false"
-                                        required="true" type="text">
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المندوب الشخصي2: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="phone2" autocomplete="false"
-                                        required="true" type="text">
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم فون اقرب الاقارب: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="phone3" autocomplete="false"
-                                        required="true" type="text">
+                                        type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>عنوانه: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="nAddress" autocomplete="false"
+                                        type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>صفته: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="adjective" autocomplete="false"
+                                        type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>1ملاحظات: <span class="tx-danger">*</span></label>

@@ -10,69 +10,59 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة الموردين</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة المستخدمين</h2>
             </div>
         </div>
     </div>
     <!-- /breadcrumb -->
 @endsection
 @section('content')
+
+@if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
     {{-- Table [name - edit] --}}
     <!--div-->
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h1></h1>
-                <a href="{{ route('suppliers.create') }}" class="btn btn-primary">أضافة مورد</a>
+                <a href="{{ route('users.create') }}" class="btn btn-primary">أضافة مستخدم</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 text-md-nowrap">
                         <thead>
                             <tr>
-                                <th>اللوجو</th>
-                                <th>اسم المورد</th>
-                                <th>اسم التجاري</th>
-                                <th>رقم تليفونه</th>
-                                <th>رقم المحل</th>
-                                <th>عنوان المحل</th>
-                                <th>العنوان الشخصي</th>
-                                <th>رقم السجل</th>
-                                <th>الموقع</th>
-                                <th>تعديل</th>
-                                <th>حذف</th>
+                                <th>اسم المستخدم</th>
+                                <th>الايميل</th>
+                                <th>الصلاحيات</th>
+                                {{-- <th>تعديل</th> --}}
+                                {{-- <th>حذف</th> --}}
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($suppliers as $supplier)
+                            @foreach ($users as $user)
                                 <tr>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
                                     <td>
-                                        <img src="uploads/suppliers/{{ $supplier->logo }}" alt="Logo" width="50" height="50">
-                                    </td>
-                                    <td>{{ $supplier->name }}</td>
-                                    <td>{{ $supplier->tradeName }}</td>
-                                    <td>{{ $supplier->personalPhone1 }} - {{ $supplier->personalPhone2 }}</td>
-                                    <td>{{ $supplier->tradePhone1 }} - {{ $supplier->tradePhone2 }}</td>
-                                    <td>{{ $supplier->personalAddress }}</td>
-                                    <td>{{ $supplier->tradeAddress }}</td>
-                                    <td>{{ $supplier->recordNumber }}</td>
-                                    <td>
-                                        <a href="{{ $supplier->location }}" target="_blank">
-                                            <i class="fa fa-map"></i>
-                                        </a>
+                                        @if (!empty($user->getRoleNames()))
+                                            @foreach ($user->getRoleNames() as $v)
+                                                <label class="badge badge-success">{{ $v }}</label>
+                                            @endforeach
+                                        @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('suppliers.edit', $supplier->id) }}">
-                                            <i class="fas fa-edit text-primary"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <form action="{{ route('suppliers.destroy', $supplier->id) }}" class="d-inline-block"
-                                            method="post">
+                                        {{-- <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a> --}}
+                                        <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">تعديل</a>
+                                        <form action="{{route('users.destroy', $user->id)}}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" style="border: none; background: transparent"
-                                                class="fa fa-trash text-danger ml-3"></button>
+                                            <button class="btn btn-danger" type="submit"> حذف</button>
                                         </form>
                                     </td>
                                 </tr>

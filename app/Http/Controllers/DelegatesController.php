@@ -67,6 +67,8 @@ class DelegatesController extends Controller
                 'phone1' => $request->phone1,
                 'phone2' => $request->phone2,
                 'phone3' => $request->phone3,
+                'nAddress' => $request->nAddress,
+                'adjective' => $request->adjective,
                 'notes1' => $request->notes1,
                 'notes2' => $request->notes2,
                 'fileNumber' => $request->fileNumber,
@@ -81,6 +83,8 @@ class DelegatesController extends Controller
                 'phone1'        => $request->phone1,
                 'phone2'        => $request->phone2,
                 'phone3'        => $request->phone3,
+                'nAddress'      => $request->nAddress,
+                'adjective'     => $request->adjective,
                 'notes1'        => $request->notes1,
                 'notes2'        => $request->notes2,
                 'fileNumber'    => $request->fileNumber,
@@ -99,7 +103,8 @@ class DelegatesController extends Controller
      */
     public function show($id)
     {
-        //
+        $delegate = DB::table('delegates')->find($id);
+        return view('delegates.show', compact('delegate'));
     }
 
     /**
@@ -141,6 +146,11 @@ class DelegatesController extends Controller
         // dd($request->file());
 
         if ($request->file('personalPhoto') && $request->file('cardImage')) {
+
+            $row = DB::table('delegates')->find($id);
+            $row->personalPhoto ? unlink('uploads/delegates/' . $row->personalPhoto) : '';
+            $row->cardImage ? unlink('uploads/delegates/' . $row->cardImage) : '';
+
             $personalPhoto = $request->file('personalPhoto')->getClientOriginalName();
             $cardImage = $request->file('cardImage')->getClientOriginalName();
             $request->file('personalPhoto')->storeAs('delegates', $personalPhoto, 'uploads');
@@ -156,6 +166,8 @@ class DelegatesController extends Controller
                 'phone1'            => $request->phone1,
                 'phone2'            => $request->phone2,
                 'phone3'            => $request->phone3,
+                'nAddress'      => $request->nAddress,
+                'adjective'     => $request->adjective,
                 'notes1'            => $request->notes1,
                 'notes2'            => $request->notes2,
                 'fileNumber'        => $request->fileNumber,
@@ -170,6 +182,8 @@ class DelegatesController extends Controller
                 'phone1'            => $request->phone1,
                 'phone2'            => $request->phone2,
                 'phone3'            => $request->phone3,
+                'nAddress'      => $request->nAddress,
+                'adjective'     => $request->adjective,
                 'notes1'            => $request->notes1,
                 'notes2'            => $request->notes2,
                 'fileNumber'        => $request->fileNumber,
@@ -188,8 +202,10 @@ class DelegatesController extends Controller
     public function destroy($id)
     {
         // get Path of my photos
+        $row = DB::table('delegates')->find($id);
+        $row->personalPhoto ? unlink('uploads/delegates/' . $row->personalPhoto) : '';
+        $row->cardImage ? unlink('uploads/delegates/' . $row->cardImage) : '';
         DB::table('delegates')->delete($id);
-        Storage::disk('public_path')->delete($_FILES['personalPhoto']);
         return redirect()->back()->with('success', "تم الحذف بنجاح");
     }
 }

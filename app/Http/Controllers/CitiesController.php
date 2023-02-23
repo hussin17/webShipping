@@ -7,6 +7,15 @@ use Illuminate\Support\Facades\DB;
 
 class CitiesController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:اضافة مدينة|عرض المدن|تعديل المدن|حذف المدن', ['only' => ['index', 'show']]);
+        $this->middleware('permission:اضافة مدينة', ['only' => ['create', 'store']]);
+        $this->middleware('permission:تعديل المدن', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:حذف المدن', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +24,6 @@ class CitiesController extends Controller
     public function index()
     {
         $cities = DB::table('getCities')->get();
-        // dd($cities);
         return view('cities.index', compact('cities'));
     }
 

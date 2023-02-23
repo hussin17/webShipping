@@ -28,43 +28,53 @@
                 </div>
                 <div class="card-body">
                     <form action="{{ route('suppliers.store') }}" method="POST" class="parsley-style-1" id="selectForm2"
-                        name="selectForm2">
+                        name="selectForm2" enctype="multipart/form-data">
                         @csrf
                         <div class="">
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
                                     <label>اسم المورد ثلاثي<span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="name"
+                                    <input autofocus class="form-control" name="name" value="{{old('name')}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
+                                    <label>اللوجو:</label>
+                                    <input autofocus class="form-control" name="logo" value="{{old('logo')}}"
+                                        type="file">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>الموقع:</label>
+                                    <input autofocus class="form-control" name="location" value="{{old('location')}}"
+                                        type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
                                     <label>اسم التجاري: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="tradeName"
+                                    <input autofocus class="form-control" name="tradeName" value="{{old('tradeName')}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المورد الشخصي1: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="personalPhone1"
+                                    <input autofocus class="form-control" name="personalPhone1" value="{{old('personalPhone1')}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المورد الشخصي2: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="personalPhone2"
+                                    <input autofocus class="form-control" name="personalPhone2" value="{{old('personalPhone2')}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المورد التجاري1: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="tradePhone1"
+                                    <input autofocus class="form-control" name="tradePhone1" value="{{old('tradePhone1')}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المورد التجاري2: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="tradePhone2"
+                                    <input autofocus class="form-control" name="tradePhone2" value="{{old('tradePhone2')}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>عنوان المورد الشخصي: <span class="tx-danger">*</span></label>
-                                    <select name="personalAddress" id="" required="true" class="form-control">
+                                    <select name="personalAddress" id="" required="true" class="form-control" value="{{old('personalAddress')}}">
                                         <option value="">اختر...</option>
                                         @foreach ($getCities as $address)
                                             <option value="{{$address->id}}">{{$address->StateName}} - {{$address->name}}</option>
@@ -73,7 +83,7 @@
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>عنوان المورد التجاري: <span class="tx-danger">*</span></label>
-                                    <select name="tradeAddress" id="" required="true" class="form-control">
+                                    <select name="tradeAddress" id="" required="true" class="form-control" value="{{old('tradeAddress')}}">
                                         <option value="">اختر...</option>
                                         @foreach ($getCities as $address)
                                             <option value="{{$address->id}}">{{$address->StateName}} - {{$address->name}}</option>
@@ -82,7 +92,7 @@
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم السجل: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" type="number" name="recordNumber">
+                                    <input class="form-control" type="text" name="recordNumber" value="{{old('recordNumber')}}">
                                 </div>
                             </div>
                         </div>

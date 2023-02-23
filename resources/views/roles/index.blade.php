@@ -10,70 +10,54 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة الموردين</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة الصلاحيات</h2>
             </div>
         </div>
     </div>
     <!-- /breadcrumb -->
 @endsection
 @section('content')
+
+@if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
     {{-- Table [name - edit] --}}
     <!--div-->
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h1></h1>
-                <a href="{{ route('suppliers.create') }}" class="btn btn-primary">أضافة مورد</a>
+                @can('اضافة صلاحية')
+                    <a href="{{ route('roles.create') }}" class="btn btn-primary">أضافة صلاحية</a>
+                @endcan
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 text-md-nowrap">
                         <thead>
                             <tr>
-                                <th>اللوجو</th>
-                                <th>اسم المورد</th>
-                                <th>اسم التجاري</th>
-                                <th>رقم تليفونه</th>
-                                <th>رقم المحل</th>
-                                <th>عنوان المحل</th>
-                                <th>العنوان الشخصي</th>
-                                <th>رقم السجل</th>
-                                <th>الموقع</th>
-                                <th>تعديل</th>
-                                <th>حذف</th>
+                                <th>اسم الصلاحية</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($suppliers as $supplier)
+                            @foreach ($roles as $role)
                                 <tr>
+                                    <td>{{ $role->name }}</td>
                                     <td>
-                                        <img src="uploads/suppliers/{{ $supplier->logo }}" alt="Logo" width="50" height="50">
-                                    </td>
-                                    <td>{{ $supplier->name }}</td>
-                                    <td>{{ $supplier->tradeName }}</td>
-                                    <td>{{ $supplier->personalPhone1 }} - {{ $supplier->personalPhone2 }}</td>
-                                    <td>{{ $supplier->tradePhone1 }} - {{ $supplier->tradePhone2 }}</td>
-                                    <td>{{ $supplier->personalAddress }}</td>
-                                    <td>{{ $supplier->tradeAddress }}</td>
-                                    <td>{{ $supplier->recordNumber }}</td>
-                                    <td>
-                                        <a href="{{ $supplier->location }}" target="_blank">
-                                            <i class="fa fa-map"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('suppliers.edit', $supplier->id) }}">
-                                            <i class="fas fa-edit text-primary"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <form action="{{ route('suppliers.destroy', $supplier->id) }}" class="d-inline-block"
-                                            method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" style="border: none; background: transparent"
-                                                class="fa fa-trash text-danger ml-3"></button>
-                                        </form>
+                                        @can('عرض الصلاحيات')
+                                            <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}">عرض</a>
+                                        @endcan
+                                        @can('تعديل الصلاحيات')
+                                            <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">تعديل</a>
+                                        @endcan
+                                        @can('حذف الصلاحيات')
+                                            {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id], 'style' => 'display:inline']) !!}
+                                            {!! Form::submit('حذف', ['class' => 'btn btn-danger']) !!}
+                                            {!! Form::close() !!}
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

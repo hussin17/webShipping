@@ -28,7 +28,7 @@
                 </div>
                 <div class="card-body">
                     <form action="{{ route('suppliers.update', $supplierData->id) }}" method="POST" class="parsley-style-1"
-                        id="selectForm2" name="selectForm2">
+                        id="selectForm2" name="selectForm2" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="">
@@ -39,28 +39,38 @@
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
+                                    <label>اللوجو</label>
+                                    <input class="form-control" name="logo" value="{{$supplierData->logo}}"
+                                        type="file">
+                                </div>
+                                <div class="parsley-input col-md-6">
+                                    <label>الموقع</label>
+                                    <input class="form-control" name="location" value="{{$supplierData->location}}"
+                                        type="text">
+                                </div>
+                                <div class="parsley-input col-md-6">
                                     <label>اسم التجاري: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="tradeName" value="{{$supplierData->tradeName}}"
+                                    <input class="form-control" name="tradeName" value="{{$supplierData->tradeName}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المورد الشخصي1: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="personalPhone1" value="{{$supplierData->personalPhone1}}"
+                                    <input class="form-control" name="personalPhone1" value="{{$supplierData->personalPhone1}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المورد الشخصي2: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="personalPhone2" value="{{$supplierData->personalPhone2}}"
+                                    <input class="form-control" name="personalPhone2" value="{{$supplierData->personalPhone2}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المورد التجاري1: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="tradePhone1" value="{{$supplierData->tradePhone1}}"
+                                    <input class="form-control" name="tradePhone1" value="{{$supplierData->tradePhone1}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">
                                     <label>رقم المورد التجاري2: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="tradePhone2" value="{{$supplierData->tradePhone2}}"
+                                    <input class="form-control" name="tradePhone2" value="{{$supplierData->tradePhone2}}"
                                         required="true" type="text">
                                 </div>
                                 <div class="parsley-input col-md-6">

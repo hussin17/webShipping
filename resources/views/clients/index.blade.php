@@ -23,7 +23,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h1></h1>
-                <a href="{{ route('clients.create') }}" class="btn btn-primary">أضافة عميل</a>
+                <a href="{{ route('clients.create') }}" class="btn btn-primary">أضافة شحنة</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
