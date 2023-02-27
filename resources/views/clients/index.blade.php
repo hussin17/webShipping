@@ -10,7 +10,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة العملاء</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة الشحنات</h2>
             </div>
         </div>
     </div>
@@ -30,9 +30,18 @@
                     <table class="table table-hover mb-0 text-md-nowrap">
                         <thead>
                             <tr>
-                                <th>اسم العميل</th>
+                                <th>اسم المستلم</th>
+                                <th>المحافظة</th>
                                 <th>رقم تليفونه</th>
-                                <th>عنوانه</th>
+
+                                <th>اسم المورد</th>
+                                <th>المحافظة</th>
+
+                                <th>قيمة الشحنة</th>
+                                <th>قيمة الشحن</th>
+                                <th>الاجمالي</th>
+
+                                <th>مشاهدة</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
                             </tr>
@@ -41,8 +50,21 @@
                             @foreach ($clients as $client)
                                 <tr>
                                     <td>{{ $client->name }}</td>
-                                    <td>{{ $client->phone }}</td>
-                                    <td>{{ $client->stateName }} - {{ $client->cityName }}</td>
+                                    <td>{{ $client->clientState }}</td>
+                                    <td>{{ $client->phone1 }}</td>
+
+                                    <td>{{ $client->supplierName }}</td>
+                                    <td>{{ $client->supplierState }}</td>
+
+                                    <td>{{ $client->vShipment }}</td>
+                                    <td>{{ $client->shippingValue }}</td>
+                                    <td>{{ ($client->nPieces * $client->vShipment) - $client->shippingValue }}</td>
+
+                                    <td>
+                                        <a href="{{ route('clients.show', $client->id) }}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         <a href="{{ route('clients.edit', $client->id) }}">
                                             <i class="fas fa-edit text-primary"></i>

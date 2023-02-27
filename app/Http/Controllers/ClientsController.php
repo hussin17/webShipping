@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -18,18 +19,21 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = DB::table('getClients')->get();
+        // dd($clients);
         return view('clients.index', compact('clients'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     *  Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        $getCities = DB::table('getCities')->get();
-        return view('clients.create', compact('getCities'));
+        $suppliers = DB::table('suppliers')->get();
+        $states = DB::table('lk_state')->get();
+        // dd($states, $getCities);
+        return view('clients.create', compact('states', 'suppliers'));
     }
 
     /**
@@ -40,16 +44,35 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
+        /**
+         * Get Total => vShipment - shippingValue
+         */
         $this->validate($request, [
-            'name' => ['required', 'unique:clients'],
-            'phone' => 'required',
-            'address' => 'required'
+            'name' => 'required',
+            'state_id' => 'required',
+            'phone1' => ['required', 'numeric'],
+            'supplier_id' => 'required',
+            'vShipment' => 'required',
+            'nPieces' => 'required',
         ]);
-
         DB::table('clients')->insert([
-            'name' => $request->name,
-            'city_id' => $request->address,
-            'phone' => $request->phone
+            'name'          => $request->name,
+            'code'          => $request->code,
+            'date_added'    => date('Y-m-d'),
+            'date_updated'    => date('Y-m-d'),
+            'supplier_id'   => $request -> supplier_id,
+            'state_id'      => $request -> state_id, // client State
+            'phone1'        => $request -> phone1,
+            'phone2'        => $request -> phone2,
+            'instructions'  => $request -> instructions,
+            'address'       => $request -> address,
+            'nPieces'       => $request -> nPieces,
+            'vShipment'     => $request -> vShipment,
+            'notes1'        => $request -> notes1,
+            'notes2'        => $request -> notes2,
+            'dimensions'    => $request -> dimensions,
+            'weight'        => $request -> weight
         ]);
 
         return redirect()->back()->with('success', "تمت الاضافة بنجاح");
@@ -63,7 +86,9 @@ class ClientsController extends Controller
      */
     public function show($id)
     {
-        //
+        $client = DB::table('getClients')->find($id);
+        // dd($client);
+        return view('clients.show', compact('client'));
     }
 
     /**
@@ -74,15 +99,10 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        // Get ClientData
-        $clientData = DB::table('clients')
-            ->join('lk_city', 'clients.city_id', '=', 'lk_city.id', 'left')
-            ->join('lk_state', 'lk_city.state_id', '=', 'lk_state.id', 'left')
-            ->where('clients.id', $id)
-            ->get(['clients.id', 'clients.name', 'clients.phone', 'lk_city.name as cityName', 'lk_city.id AS city_id', 'lk_state.name AS stateName']);
-
-        $cities = DB::table('getCities')->get();
-        return view('clients.edit', compact('clientData', 'cities'));
+        $client = DB::table('getClients')->find($id);
+        $suppliers = DB::table('suppliers')->get();
+        $states = DB::table('lk_state')->get();
+        return view('clients.edit', compact('client', 'suppliers', 'states'));
     }
 
     /**
@@ -96,15 +116,28 @@ class ClientsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required'
+            'state_id' => 'required',
+            'phone1' => ['required', 'numeric'],
+            'supplier_id' => 'required',
+            'vShipment' => 'required',
+            'nPieces' => 'required',
         ]);
-
-
         DB::table('clients')->where('id', $id)->update([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'city_id' => $request->address
+            'name'          => $request->name,
+            'code'          => $request->code,
+            'date_updated'    => date('Y-m-d'),
+            'supplier_id'   => $request -> supplier_id,
+            'state_id'      => $request -> state_id, // client State
+            'phone1'        => $request -> phone1,
+            'phone2'        => $request -> phone2,
+            'instructions'  => $request -> instructions,
+            'address'       => $request -> address,
+            'nPieces'       => $request -> nPieces,
+            'vShipment'     => $request -> vShipment,
+            'notes1'        => $request -> notes1,
+            'notes2'        => $request -> notes2,
+            'dimensions'    => $request -> dimensions,
+            'weight'        => $request -> weight
         ]);
 
         return redirect()->back()->with('success', 'تم التعديل بنجاح');

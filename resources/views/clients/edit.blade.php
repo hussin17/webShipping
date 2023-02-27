@@ -10,7 +10,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل بيانات العميل</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل بيانات الشحنة</h2>
             </div>
         </div>
     </div>
@@ -27,37 +27,100 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('clients.update', $clientData[0]->id) }}" method="POST" class="parsley-style-1"
-                        id="selectForm2" name="selectForm2">
+                    <form action="{{ route('clients.update', $client->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <div class="">
-                            <div class="row mg-b-20">
-                                <div class="parsley-input col-md-6">
-                                    <label>اسم العميل: <span class="tx-danger">*</span></label>
-                                    <input  autofocus="true" class="form-control" name="name" value="{{ $clientData[0]->name }}"
-                                        required="true" type="text">
-                                </div>
-                                <div class="parsley-input col-md-6">
-                                    <label>رقم العميل: <span class="tx-danger">*</span></label>
-                                    <input  autofocus="true" class="form-control" name="phone" value="{{ $clientData[0]->phone }}"
-                                        required="true" type="text">
-                                </div>
-                                <div class="parsley-input col-md-6">
-                                    <label>عنوان العميل: <span class="tx-danger">*</span></label>
-                                    <select class="form-control" name="address" value="{{ $clientData[0]->city_id }}" required="true">
-                                        <option value="{{ $clientData[0]->city_id }}">{{ $clientData[0]->stateName }} - {{ $clientData[0]->cityName }}</option>
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}">{{$city->StateName}} - {{$city->name}}</option>
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    كود:
+                                    <input type="text" value="{{ $client->code }}" class="form-control" name="code">
+                                </td>
+                                <td>
+                                    اسم المستلم:
+                                    <input type="text" name="name" value="{{ $client->name }}" class="form-control">
+                                    @error('name')
+                                        <div class="alert alert-danger">يرجى ادخال اسم المستلم</div>
+                                    @enderror
+                                </td>
+                                <td>المحافظة:
+                                    <select name="state_id" id="" class="form-control">
+                                        <option disabled value="{{ $client->clientStateId }}">{{ $client->clientState }}</option>
+                                        @foreach ($states as $state)
+                                            <option value="{{ $state->id }}">{{ $state->name }}</option>
                                         @endforeach
-                                        {{-- <option value="{{ $client->city_id }}"></option> --}}
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mg-t-30">
-                            <button class="btn btn-main-primary pd-x-20" type="submit">حفظ</button>
-                        </div>
+                                    @error('state_id')
+                                        <div class="alert alert-danger">يرجى اختيار محافظة المستلم</div>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>العنوان تفصيلي:
+                                    <textarea name="address" class="form-control" rows="auto">{{ $client->address }}</textarea>
+                                </td>
+                                <td>
+                                    تليفون 1:
+                                    <input type="text" class="form-control" name="phone1" value="{{ $client->phone1 }}">
+                                    @error('phone1')
+                                        <div class="alert alert-danger">يرجى ادخال رقم الهاتف بشكل صحيح</div>
+                                    @enderror
+                                </td>
+                                <td>
+                                    تليفون 2: <input type="text" class="form-control" name="phone2" value="{{ $client->phone2 }}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    اسم المورد:
+                                    <select name="supplier_id" class="form-control">
+                                        <option value="{{ $client->supplierPersonalAddress }}">{{ $client->supplierName }}</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('supplier_id')
+                                        <div class="alert alert-danger">يرجى اختيار اسم المورد</div>
+                                    @enderror
+                                </td>
+                                <td>
+                                    قيمة الشحنه:
+                                    <input type="number" class="form-control" name="vShipment" value="{{ $client->vShipment }}">
+                                    @error('vShipment')
+                                        <div class="alert alert-danger">يرجى ادخال قيمة الشحنة</div>
+                                    @enderror
+                                </td>
+                                <td>
+                                    عدد القطع:
+                                    <input type="number" max="5000" min="1" name="nPieces" class="form-control" value="{{ $client->nPieces }}">
+                                    @error('nPieces')
+                                        <div class="alert alert-danger">يرجى ادخال عدد القطع</div>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>الوزن: <input type="text" name="weight" class="form-control" name="weight" value="{{ $client->weight }}"></td>
+                                <td>
+                                    الابعاد:
+                                    <input type="text" class="form-control" name="dimensions" value="{{ $client->dimensions }}">
+                                </td>
+                                <td colspan="2">
+                                    تعليمات التسليم:
+                                    <textarea name="instructions" class="form-control">{{ $client->instructions }}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ملاحظات 1
+                                    <textarea name="notes1" class="form-control">{{ $client->notes1 }}</textarea>
+                                </td>
+                                <td>
+                                    ملاحظات 2
+                                    <textarea name="notes2" class="form-control">{{ $client->notes2 }}</textarea>
+                                </td>
+                            </tr>
+                        </table>
+                        <button type="submit" class="btn btn-primary">حفظ</button>
                     </form>
                 </div>
             </div>
@@ -80,9 +143,9 @@
     <script src="{{ URL::asset('assets/js/apexcharts.js') }}"></script>
     <!-- Internal Map -->
     <script src="{{ URL::asset('assets/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/modal-popup.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/chart.js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/raphael/raphael.min.js') }}"></script>
     <!--Internal  index js -->
-    <script src="{{ URL::asset('assets/js/index.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/jquery.vmap.sampledata.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/jquery.flot/jquery.flot.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/jquery.flot/jquery.flot.pie.js') }}"></script>
 @endsection

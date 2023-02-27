@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2023 at 03:05 AM
+-- Generation Time: Feb 24, 2023 at 01:43 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -39,7 +39,8 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `name`, `phone`, `city_id`) VALUES
-(2, 'اسامة محمد المهدي', '01061093957', 5);
+(2, 'اسامة محمد المهدي', '01061093957', 5),
+(5, 'حسين محمد عبدالله', '01061093957', 3);
 
 -- --------------------------------------------------------
 
@@ -58,6 +59,8 @@ CREATE TABLE `delegates` (
   `phone1` varchar(15) NOT NULL,
   `phone2` varchar(15) NOT NULL,
   `phone3` varchar(15) NOT NULL,
+  `nAddress` text DEFAULT NULL,
+  `adjective` varchar(255) DEFAULT NULL,
   `notes1` text NOT NULL,
   `notes2` text NOT NULL,
   `fileNumber` int(11) NOT NULL,
@@ -68,8 +71,8 @@ CREATE TABLE `delegates` (
 -- Dumping data for table `delegates`
 --
 
-INSERT INTO `delegates` (`id`, `name`, `nationalID`, `age`, `address`, `personalPhoto`, `cardImage`, `phone1`, `phone2`, `phone3`, `notes1`, `notes2`, `fileNumber`, `tradeName`) VALUES
-(9, 'اسامة محمد المهدي', '30109300118453', 21, 'asdf', 'c-d-x-PDX_a_82obo-unsplash.jpg', 'federico-di-dio-photography-QI6DitsEmsI-unsplash.jpg', '1592356', '1592356', '1592356', 'sfdasdfa', 'sadfasdfas', 21, 'Code2');
+INSERT INTO `delegates` (`id`, `name`, `nationalID`, `age`, `address`, `personalPhoto`, `cardImage`, `phone1`, `phone2`, `phone3`, `nAddress`, `adjective`, `notes1`, `notes2`, `fileNumber`, `tradeName`) VALUES
+(14, 'محمد محسن', '30109300118453', 20, 'dsfsdf', '107765613_1143108772732803_7695175023168170994_n.jpg', '259868820_261583082698635_1423932095418435168_n.jpg', '1592356', '0504356672', '1592356', 'الدقهلية - المنصورة - طنامل', 'اخوه', 'sdfsdfsdf', 'sdfsdfsdf', 50, 'sdfsdf');
 
 -- --------------------------------------------------------
 
@@ -203,6 +206,14 @@ CREATE TABLE `model_has_roles` (
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(3, 'App\\Models\\User', 6),
+(4, 'App\\Models\\User', 7);
+
 -- --------------------------------------------------------
 
 --
@@ -274,8 +285,34 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'edit articles', 'web', '2023-02-08 21:42:40', '2023-02-08 21:42:40'),
-(2, 'show clients', 'web', '2023-02-08 21:45:13', '2023-02-08 21:45:13');
+(3, 'اضافة مستخدم', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(4, 'عرض المستخدمين', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(5, 'حذف المستخدمين', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(6, 'تعديل المستخدمين', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(7, 'اضافة صلاحية', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(8, 'عرض الصلاحيات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(9, 'حذف الصلاحيات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(10, 'تعديل الصلاحيات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(11, 'اضافة مدينة', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(12, 'عرض المدن', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(13, 'حذف المدن', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(14, 'تعديل المدن', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(15, 'اضافة محافظة', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(16, 'عرض المحافظات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(17, 'حذف المحافظات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(18, 'تعديل المحافظات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(19, 'اضافة عميل', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(20, 'عرض العملاء', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(21, 'حذف العملاء', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(22, 'تعديل العملاء', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(23, 'اضافة مورد', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(24, 'عرض الموردين', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(25, 'حذف الموردين', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(26, 'تعديل الموردين', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(27, 'اضافة مندوب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(28, 'عرض المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(29, 'حذف المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(30, 'تعديل المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21');
 
 -- --------------------------------------------------------
 
@@ -314,8 +351,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'writer', 'web', '2023-02-08 21:42:40', '2023-02-08 21:42:40'),
-(2, 'show', 'web', '2023-02-08 21:45:13', '2023-02-08 21:45:13');
+(3, 'ادمن', 'web', '2023-02-19 18:21:11', '2023-02-19 19:17:14'),
+(4, 'مستخدم', 'web', '2023-02-19 19:25:09', '2023-02-19 19:25:09');
 
 -- --------------------------------------------------------
 
@@ -328,6 +365,47 @@ CREATE TABLE `role_has_permissions` (
   `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(3, 3),
+(4, 3),
+(4, 4),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(8, 4),
+(9, 3),
+(10, 3),
+(11, 3),
+(12, 3),
+(12, 4),
+(13, 3),
+(14, 3),
+(15, 3),
+(16, 3),
+(16, 4),
+(17, 3),
+(18, 3),
+(19, 3),
+(20, 3),
+(20, 4),
+(21, 3),
+(22, 3),
+(23, 3),
+(24, 3),
+(24, 4),
+(25, 3),
+(26, 3),
+(27, 3),
+(28, 3),
+(28, 4),
+(29, 3),
+(30, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -336,6 +414,7 @@ CREATE TABLE `role_has_permissions` (
 
 CREATE TABLE `suppliers` (
   `id` int(11) NOT NULL,
+  `logo` text DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `personalPhone1` varchar(15) NOT NULL,
   `personalPhone2` varchar(15) NOT NULL,
@@ -343,17 +422,21 @@ CREATE TABLE `suppliers` (
   `tradePhone2` varchar(15) NOT NULL,
   `personalAddress` int(11) NOT NULL,
   `tradeAddress` int(11) NOT NULL,
-  `recordNumber` int(11) NOT NULL,
-  `tradeName` varchar(255) NOT NULL
+  `recordNumber` text DEFAULT NULL,
+  `tradeName` varchar(255) NOT NULL,
+  `location` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `suppliers`
 --
 
-INSERT INTO `suppliers` (`id`, `name`, `personalPhone1`, `personalPhone2`, `tradePhone1`, `tradePhone2`, `personalAddress`, `tradeAddress`, `recordNumber`, `tradeName`) VALUES
-(2, 'mohamed2', '0106109395710', '0106109395710', '0106109395710', '0106109395710', 1, 5, 5, 'Code2'),
-(4, 'Admin', '1592356', '1592356', '1592356', '1592356', 1, 3, 250, 'Code');
+INSERT INTO `suppliers` (`id`, `logo`, `name`, `personalPhone1`, `personalPhone2`, `tradePhone1`, `tradePhone2`, `personalAddress`, `tradeAddress`, `recordNumber`, `tradeName`, `location`) VALUES
+(10, '1677192013.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 5, '6', 'code', NULL),
+(11, '1677193383.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(12, '1677193324.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(13, '1677193160.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 3, '250', 'كود', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(14, '1677193500.jpg', 'محمد محسن', '0504356672', '0504356672', '0504356672', '0504356672', 3, 1, '20', 'Code', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8');
 
 -- --------------------------------------------------------
 
@@ -377,8 +460,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@admin.com', NULL, '$2y$10$egymOTc3PN1k/PEOkwwDGuLfRRQ3VboTUH32GFkHX8kIjkrB.jZj2', NULL, '2023-01-15 18:46:54', '2023-01-15 18:46:54'),
-(2, 'Code', 'code@code.com', NULL, '$2y$10$egymOTc3PN1k/PEOkwwDGuLfRRQ3VboTUH32GFkHX8kIjkrB.jZj2', NULL, '2023-01-26 16:07:21', '2023-01-26 16:07:21');
+(6, 'Admin', 'admin@gmail.com', NULL, '$2y$10$k0GMsz3FMDnqDyUyz8wi1.ir9kgayMS/co2VWVdwOQvQ1cUgc63e.', NULL, '2023-02-19 18:21:11', '2023-02-19 18:21:11'),
+(7, 'حسين', 'hussien@gmail.com', NULL, '$2y$10$pPYdS897J95kT.Ws8gL67O4JonL5b4.xDYnZsRBh6jXyCLxAVPV2q', NULL, '2023-02-19 19:26:53', '2023-02-19 19:26:53');
 
 -- --------------------------------------------------------
 
@@ -525,13 +608,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `delegates`
 --
 ALTER TABLE `delegates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -567,7 +650,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -579,19 +662,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
