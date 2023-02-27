@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2023 at 01:43 AM
+-- Generation Time: Feb 28, 2023 at 12:48 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -30,17 +30,31 @@ SET time_zone = "+00:00";
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `phone` varchar(15) NOT NULL,
-  `city_id` int(11) NOT NULL
+  `code` varchar(50) DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `instructions` text DEFAULT NULL,
+  `phone1` varchar(15) NOT NULL,
+  `phone2` varchar(15) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `nPieces` int(11) DEFAULT NULL,
+  `vShipment` int(11) DEFAULT NULL,
+  `weight` int(11) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  `dimensions` varchar(10) DEFAULT NULL,
+  `notes1` text DEFAULT NULL,
+  `notes2` text DEFAULT NULL,
+  `date_added` date DEFAULT NULL,
+  `date_updated` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`id`, `name`, `phone`, `city_id`) VALUES
-(2, 'اسامة محمد المهدي', '01061093957', 5),
-(5, 'حسين محمد عبدالله', '01061093957', 3);
+INSERT INTO `clients` (`id`, `name`, `code`, `state_id`, `supplier_id`, `instructions`, `phone1`, `phone2`, `address`, `nPieces`, `vShipment`, `weight`, `total`, `dimensions`, `notes1`, `notes2`, `date_added`, `date_updated`) VALUES
+(1, 'محمد محسن', 'A10', 3, 11, 'hfghfghfgh', '0504356672', '0504356672', 'sada', 10, 65, 250, NULL, '253', 'gfhfghfgh', 'fghfghfgh', '2023-02-27', '2023-02-27'),
+(2, 'عبدالرحمن محمد ابراهيم', 'A10', 3, 10, 'vvbnvbnvb', '0504356672', '0504356672', 'ghjghjgh', 6, 108, 250, NULL, '253', 'vbnvbnvbnvb', 'vbnvbn', '2023-02-27', '2023-02-27');
 
 -- --------------------------------------------------------
 
@@ -111,9 +125,26 @@ CREATE TABLE `getcities` (
 CREATE TABLE `getclients` (
 `id` int(11)
 ,`name` varchar(255)
-,`phone` varchar(15)
-,`cityName` varchar(50)
-,`stateName` varchar(50)
+,`phone1` varchar(15)
+,`phone2` varchar(15)
+,`code` varchar(50)
+,`instructions` text
+,`address` text
+,`nPieces` int(11)
+,`vShipment` int(11)
+,`weight` int(11)
+,`total` int(11)
+,`dimensions` varchar(10)
+,`notes1` text
+,`notes2` text
+,`date_added` date
+,`date_updated` date
+,`clientState` varchar(50)
+,`clientStateId` int(11)
+,`supplierName` varchar(255)
+,`supplierPersonalAddress` int(11)
+,`supplierState` varchar(50)
+,`shippingValue` float
 );
 
 -- --------------------------------------------------------
@@ -244,15 +275,6 @@ INSERT INTO `orders` (`id`, `client_id`, `supplier_id`, `orderDate`, `details_ad
 (4, 2, 2, '2023-01-28', NULL, NULL, NULL, NULL, '', 0, 0, 0),
 (5, 2, 2, '2023-01-28', NULL, NULL, NULL, 'Notes', '', 0, 0, 0),
 (6, 2, 2, '2023-01-30', NULL, NULL, NULL, NULL, '', 0, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `ordersdata`
--- (See below for the actual view)
---
-CREATE TABLE `ordersdata` (
-);
 
 -- --------------------------------------------------------
 
@@ -479,16 +501,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getclients`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getclients`  AS   (select `clients`.`id` AS `id`,`clients`.`name` AS `name`,`clients`.`phone` AS `phone`,`lk_city`.`name` AS `cityName`,`lk_state`.`name` AS `stateName` from ((`clients` left join `lk_city` on(`lk_city`.`id` = `clients`.`city_id`)) left join `lk_state` on(`lk_state`.`id` = `lk_city`.`state_id`)))  ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `ordersdata`
---
-DROP TABLE IF EXISTS `ordersdata`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ordersdata`  AS SELECT `orders`.`id` AS `id`, `orders`.`size` AS `size`, `orders`.`weight` AS `weight`, `orders`.`notes` AS `notes`, `orders`.`orderDate` AS `orderDate`, `orders`.`details_address` AS `details_address`, `orders`.`mount` AS `mount`, `clients`.`name` AS `ClientName`, `clients`.`phone` AS `ClientPhone`, `suppliers`.`name` AS `SupplierName`, `suppliers`.`phone` AS `SupplierPhone`, `originplace`.`name` AS `originPlace`, `deliveryplace`.`name` AS `deliveryPlace` FROM ((((`orders` left join `clients` on(`clients`.`id` = `orders`.`client_id`)) left join `suppliers` on(`suppliers`.`id` = `orders`.`supplier_id`)) left join `lk_city` `originplace` on(`orders`.`origin_place` = `originplace`.`id`)) left join `lk_city` `deliveryplace` on(`orders`.`delivery_place` = `deliveryplace`.`id`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getclients`  AS SELECT `clients`.`id` AS `id`, `clients`.`name` AS `name`, `clients`.`phone1` AS `phone1`, `clients`.`phone2` AS `phone2`, `clients`.`code` AS `code`, `clients`.`instructions` AS `instructions`, `clients`.`address` AS `address`, `clients`.`nPieces` AS `nPieces`, `clients`.`vShipment` AS `vShipment`, `clients`.`weight` AS `weight`, `clients`.`total` AS `total`, `clients`.`dimensions` AS `dimensions`, `clients`.`notes1` AS `notes1`, `clients`.`notes2` AS `notes2`, `clients`.`date_added` AS `date_added`, `clients`.`date_updated` AS `date_updated`, `clientstate`.`name` AS `clientState`, `clientstate`.`id` AS `clientStateId`, `suppliers`.`name` AS `supplierName`, `suppliers`.`personalAddress` AS `supplierPersonalAddress`, `supplierstate`.`name` AS `supplierState`, `clientstate`.`shippingValue` AS `shippingValue` FROM (((`clients` left join `lk_state` `clientstate` on(`clients`.`state_id` = `clientstate`.`id`)) left join `suppliers` on(`clients`.`supplier_id` = `suppliers`.`id`)) left join `lk_state` `supplierstate` on(`supplierstate`.`id` = `suppliers`.`personalAddress`))  ;
 
 --
 -- Indexes for dumped tables
@@ -608,7 +621,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `delegates`
