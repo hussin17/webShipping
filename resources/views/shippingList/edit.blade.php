@@ -10,7 +10,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">أضافة محافظة</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل قائمة الاسعار</h2>
             </div>
         </div>
     </div>
@@ -27,33 +27,19 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('states.store') }}" method="POST" class="parsley-style-1" id="selectForm2"
-                        name="selectForm2">
+                    <form action="{{ route('shippingList.update', $shippingList->id) }}" method="POST" class="parsley-style-1"
+                        id="selectForm2" name="selectForm2">
                         @csrf
+                        @method('PUT')
                         <div class="">
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
-                                    <label>اختر القائمة: <span class="tx-danger">*</span></label>
-                                    <select autofocus class="form-control" name="shippingList_id">
-                                        <option value="">اختر...</option>
-                                        @foreach ($shippingList as $item)
-                                            <option value="{{$item->id}}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mg-b-20">
-                                <div class="parsley-input col-md-6">
                                     <label>اسم المحافظة: <span class="tx-danger">*</span></label>
-                                    <input autofocus class="form-control" name="name"
-                                        required="true" type="text">
-                                </div>
-                            </div>
-                            <div class="row mg-b-20">
-                                <div class="parsley-input col-md-6">
-                                    <label>قيمة الشحن: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="shippingValue"
-                                        required="true" type="number">
+                                    <input autofocus value="{{ $shippingList->name }}" class="form-control" name="name"
+                                        type="text">
+                                        @error('name')
+                                            <div class="alert alert-danger">يرجى ادخال الاسم</div>
+                                        @enderror
                                 </div>
                             </div>
                         </div>

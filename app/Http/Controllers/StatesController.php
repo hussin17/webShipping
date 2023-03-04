@@ -14,7 +14,7 @@ class StatesController extends Controller
      */
     public function index()
     {
-        $states = DB::table("lk_state")->get();
+        $states = DB::table("lk_state")->join('shippingList', 'lk_state.shippingList_id', '=', 'shippingList.id', 'inner')->get(['lk_state.id as id', 'lk_state.name as name', 'lk_state.shippingValue as shippingValue', 'shippingList.name as shippingName']);
         return view('states.index', compact('states'));
     }
 
@@ -25,7 +25,8 @@ class StatesController extends Controller
      */
     public function create()
     {
-        return view('states.create');
+        $shippingList = DB::table('shippingList')->get();
+        return view('states.create', compact('shippingList'));
     }
 
     /**
@@ -38,12 +39,14 @@ class StatesController extends Controller
     {
         $this->validate($request, [
             'name' => ['required', 'unique:lk_state'],
-            'shippingValue' => 'required'
+            'shippingValue' => 'required',
+            'shippingList_id' => 'required'
         ]);
 
         DB::table('lk_state')->insert([
             'name' => $request->name,
-            'shippingValue' => $request->shippingValue
+            'shippingValue' => $request->shippingValue,
+            'shippingList_id' => $request->shippingList_id
         ]);
         return redirect()->back()->with('success', "تمت الاضافة بنجاح");
     }

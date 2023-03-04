@@ -70,6 +70,8 @@
                 <ul class="slide-menu">
                     <li><a class="slide-item" href="{{ route('states.index') }}">عرض المحافظات</a></li>
                     <li><a class="slide-item" href="{{ route('states.create') }}">اضافة محافظة</a></li>
+                    <li><a class="slide-item" href="{{ route('shippingList.index') }}">عرض قوائم الاسعار</a></li>
+                    <li><a class="slide-item" href="{{ route('shippingList.create') }}">اضافة قائمة اسعار</a></li>
                 </ul>
             </li>
         </ul>

@@ -10,7 +10,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة المحافظات</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة قوائم اسعار الشحن</h2>
             </div>
         </div>
     </div>
@@ -23,33 +23,29 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h1></h1>
-                <a href="{{ route('states.create') }}" class="btn btn-primary">أضافة محافظة</a>
+                <a href="{{ route('shippingList.create') }}" class="btn btn-primary">أضافة قائمة</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 text-md-nowrap">
                         <thead>
                             <tr>
-                                <th>المحافظة</th>
-                                <th>قيمة الشحن</th>
-                                <th>قائمة الشحن</th>
+                                <th>اسم القائمة</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($states as $state)
+                            @foreach ($shippingList as $state)
                                 <tr>
                                     <td>{{ $state->name }}</td>
-                                    <td>{{ $state->shippingValue }}</td>
-                                    <td>{{ $state->shippingName }}</td>
                                     <td>
-                                        <a href="{{ route('states.edit', $state->id) }}">
+                                        <a href="{{ route('shippingList.edit', $state->id) }}">
                                             <i class="fas fa-edit text-primary"></i>
                                         </a>
                                     </td>
                                     <td>
-                                        <form action="{{ route('states.destroy', $state->id) }}" class="d-inline-block"
+                                        <form action="{{ route('shippingList.destroy', $state->id) }}" class="d-inline-block"
                                             method="post">
                                             @csrf
                                             @method('DELETE')
