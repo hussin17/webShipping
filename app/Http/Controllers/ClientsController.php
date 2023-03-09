@@ -119,6 +119,7 @@ class ClientsController extends Controller
             'state_id' => 'required',
             'phone1' => ['required', 'numeric'],
             'supplier_id' => 'required',
+            
             'vShipment' => 'required',
             'nPieces' => 'required',
         ]);
