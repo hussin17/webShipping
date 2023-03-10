@@ -33,27 +33,12 @@
                         <div class="">
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
-                                    <label>اختر القائمة: <span class="tx-danger">*</span></label>
-                                    <select autofocus class="form-control" name="shippingList_id">
-                                        <option value="">اختر...</option>
-                                        @foreach ($shippingList as $item)
-                                            <option value="{{$item->id}}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mg-b-20">
-                                <div class="parsley-input col-md-6">
                                     <label>اسم المحافظة: <span class="tx-danger">*</span></label>
                                     <input autofocus class="form-control" name="name"
-                                        required="true" type="text">
-                                </div>
-                            </div>
-                            <div class="row mg-b-20">
-                                <div class="parsley-input col-md-6">
-                                    <label>قيمة الشحن: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="shippingValue"
-                                        required="true" type="number">
+                                        type="text">
+                                        @error('name')
+                                            <div class="alert alert-danger">يرجى ادخال اسم المحافظة</div>
+                                        @enderror
                                 </div>
                             </div>
                         </div>

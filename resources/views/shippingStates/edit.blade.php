@@ -10,7 +10,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل المحافظة</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">تعديل محافظة الشحن</h2>
             </div>
         </div>
     </div>
@@ -27,19 +27,44 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('states.update', $state->id) }}" method="POST" class="parsley-style-1"
+                    <form action="{{ route('shippingStates.update', $shippingState->id) }}" method="POST" class="parsley-style-1"
                         id="selectForm2" name="selectForm2">
                         @csrf
                         @method('PUT')
                         <div class="">
                             <div class="row mg-b-20">
                                 <div class="parsley-input col-md-6">
-                                    <label>اسم المحافظة: <span class="tx-danger">*</span></label>
-                                    <input autofocus value="{{ $state->name }}" class="form-control" name="name"
-                                        type="text">
-                                        @error('name')
-                                            <div class="alert alert-danger">يرجى ادخال اسم المحافظة</div>
-                                        @enderror
+                                    <label>قائمة الاسعار: <span class="tx-danger">*</span></label>
+                                    <select autofocus class="form-control" name="list_id">
+                                        <option value="{{$shippingState->list_id}}">{{$shippingState->listName}}</option>
+                                        @foreach ($lists as $list)
+                                            <option value="{{ $list->id }}">{{ $list->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('list_id')
+                                        <div class="alert alert-danger">يرجى اختيار القائمة</div>
+                                    @enderror
+                                </div>
+
+                                <div class="parsley-input col-md-6">
+                                    <label>المحافظات: <span class="tx-danger">*</span></label>
+                                    <select class="form-control" name="state_id">
+                                        <option value="{{$shippingState->state_id}}">{{$shippingState->stateName}}</option>
+                                        @foreach ($states as $state)
+                                            <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('state_id')
+                                        <div class="alert alert-danger">يرجى اختيار المحافظة</div>
+                                    @enderror
+                                </div>
+
+                                <div class="parsley-input col-md-6">
+                                    <label>سعر الشحن: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="shippingValue" value="{{ $shippingState->shippingValue }}"  type="text">
+                                    @error('shippingValue')
+                                        <div class="alert alert-danger">يرجى ادخال سعر الشحن</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

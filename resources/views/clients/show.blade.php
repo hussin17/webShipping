@@ -54,7 +54,7 @@
                             </tr>
                             <tr>
                                 <th>محافظة العميل</th>
-                                <td>{{ $client->clientState }}</td>
+                                <td>{{ $client->listName }} - {{ $client->stateName }}</td>
                             </tr>
                             <tr>
                                 <th>العنوان بالتفصيل</th>
@@ -94,7 +94,7 @@
                             </tr>
                             <tr>
                                 <th>الاجمالي</th>
-                                <td>{{ ($client->nPieces * $client->vShipment) - $client->shippingValue }}</td>
+                                <td>{{ $client->vShipment - $client->shippingValue }}</td>
                             </tr>
                             <tr>
                                 <th>الملاحظات 1</th>

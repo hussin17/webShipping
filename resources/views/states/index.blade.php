@@ -31,8 +31,6 @@
                         <thead>
                             <tr>
                                 <th>المحافظة</th>
-                                <th>قيمة الشحن</th>
-                                <th>قائمة الشحن</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
                             </tr>
@@ -41,8 +39,6 @@
                             @foreach ($states as $state)
                                 <tr>
                                     <td>{{ $state->name }}</td>
-                                    <td>{{ $state->shippingValue }}</td>
-                                    <td>{{ $state->shippingName }}</td>
                                     <td>
                                         <a href="{{ route('states.edit', $state->id) }}">
                                             <i class="fas fa-edit text-primary"></i>

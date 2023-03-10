@@ -10,7 +10,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة الشحنات</h2>
+                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">كافة قوائم المحافظات</h2>
             </div>
         </div>
     </div>
@@ -20,59 +20,39 @@
     {{-- Table [name - edit] --}}
     <!--div-->
     <div class="col-xl-12">
+        @if (Session::has('success'))
+            <div class="alert alert-success">{{Session::get('success')}}</div>
+        @endif
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h1></h1>
-                <a href="{{ route('clients.create') }}" class="btn btn-primary">أضافة شحنة</a>
+                <a href="{{ route('shippingStates.create') }}" class="btn btn-primary">أضافة</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 text-md-nowrap">
                         <thead>
                             <tr>
-                                <th>اسم المستلم</th>
+                                <th>القائمة</th>
                                 <th>المحافظة</th>
-                                <th>رقم تليفونه</th>
-
-                                <th>اسم المورد</th>
-
-                                <th>قيمة الشحنة</th>
-                                <th>قيمة الشحن</th>
-                                <th>الاجمالي</th>
-
-                                <th>مشاهدة</th>
+                                <th>سعر الشحن</th>
                                 <th>تعديل</th>
                                 <th>حذف</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($clients as $client)
+                            @foreach ($shippingStates as $state)
                                 <tr>
-
-                                    <td>{{ $client->name }}</td>
-                                    <td>{{ $client->listName }} - {{ $client->stateName }}</td>
-                                    <td>{{ $client->phone1 }}</td>
-
-                                    <td>{{ $client->supplierName }}</td>
-
-                                    <td>{{ $client->vShipment }}</td>
-                                    <td>{{ $client->shippingValue }}</td>
-                                    <td>{{ $client->vShipment - $client->shippingValue }}</td>
-
+                                    <td>{{ $state->listName }}</td>
+                                    <td>{{ $state->stateName }}</td>
+                                    <td>{{ $state->shippingValue }}</td>
                                     <td>
-                                        <a href="{{ route('clients.show', $client->id) }}">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                    </td>
-
-                                    <td>
-                                        <a href="{{ route('clients.edit', $client->id) }}">
+                                        <a href="{{ route('shippingStates.edit', $state->id) }}">
                                             <i class="fas fa-edit text-primary"></i>
                                         </a>
                                     </td>
-
                                     <td>
-                                        <form action="{{ route('clients.destroy', $client->id) }}" class="d-inline-block"
+                                        <form action="{{ route('shippingStates.destroy', $state->id) }}" class="d-inline-block"
                                             method="post">
                                             @csrf
                                             @method('DELETE')
@@ -80,7 +60,6 @@
                                                 class="fa fa-trash text-danger ml-3"></button>
                                         </form>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>

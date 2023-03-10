@@ -32,8 +32,10 @@ class ClientsController extends Controller
     {
         $suppliers = DB::table('suppliers')->get();
         $states = DB::table('lk_state')->get();
-        // dd($states, $getCities);
-        return view('clients.create', compact('states', 'suppliers'));
+        $shippingStates = DB::table('shippingStatesView')->get();
+        // dd($states, $shippingStates);
+
+        return view('clients.create', compact('states', 'suppliers', 'shippingStates'));
     }
 
     /**
@@ -56,13 +58,18 @@ class ClientsController extends Controller
             'vShipment' => 'required',
             'nPieces' => 'required',
         ]);
+
+        // dd($request->state_id, $request->supplier_id);
+
         DB::table('clients')->insert([
             'name'          => $request->name,
             'code'          => $request->code,
             'date_added'    => date('Y-m-d'),
             'date_updated'    => date('Y-m-d'),
+
             'supplier_id'   => $request -> supplier_id,
             'state_id'      => $request -> state_id, // client State
+
             'phone1'        => $request -> phone1,
             'phone2'        => $request -> phone2,
             'instructions'  => $request -> instructions,
@@ -102,7 +109,8 @@ class ClientsController extends Controller
         $client = DB::table('getClients')->find($id);
         $suppliers = DB::table('suppliers')->get();
         $states = DB::table('lk_state')->get();
-        return view('clients.edit', compact('client', 'suppliers', 'states'));
+        $shippingStates = DB::table('shippingStatesView')->get();
+        return view('clients.edit', compact('client', 'shippingStates', 'suppliers', 'states'));
     }
 
     /**
@@ -119,7 +127,7 @@ class ClientsController extends Controller
             'state_id' => 'required',
             'phone1' => ['required', 'numeric'],
             'supplier_id' => 'required',
-            
+
             'vShipment' => 'required',
             'nPieces' => 'required',
         ]);

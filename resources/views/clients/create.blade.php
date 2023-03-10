@@ -45,8 +45,8 @@
                                 <td>المحافظة:
                                     <select name="state_id" id="" class="form-control">
                                         <option value="">اختر...</option>
-                                        @foreach ($states as $state)
-                                            <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                        @foreach ($shippingStates as $state)
+                                            <option value="{{ $state->state_id }}">القائمة {{ $state->listName }} - {{ $state->stateName }}</option>
                                         @endforeach
                                     </select>
                                     @error('state_id')

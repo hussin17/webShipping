@@ -9,6 +9,7 @@ use App\Http\Controllers\DelegatesController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShippingListController;
+use App\Http\Controllers\ShippingStatesController;
 use App\Http\Controllers\StatesController;
 use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\UserController;
@@ -53,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/cities', CitiesController::class);
 
     Route::resource('/shippingList', ShippingListController::class);
+    Route::resource('/shippingStates', ShippingStatesController::class);
 
     // Client
     Route::resource('/clients', ClientsController::class);
