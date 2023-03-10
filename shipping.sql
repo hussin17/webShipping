@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2023 at 12:48 AM
+-- Generation Time: Mar 10, 2023 at 11:30 PM
 -- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,8 +53,8 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `name`, `code`, `state_id`, `supplier_id`, `instructions`, `phone1`, `phone2`, `address`, `nPieces`, `vShipment`, `weight`, `total`, `dimensions`, `notes1`, `notes2`, `date_added`, `date_updated`) VALUES
-(1, 'محمد محسن', 'A10', 3, 11, 'hfghfghfgh', '0504356672', '0504356672', 'sada', 10, 65, 250, NULL, '253', 'gfhfghfgh', 'fghfghfgh', '2023-02-27', '2023-02-27'),
-(2, 'عبدالرحمن محمد ابراهيم', 'A10', 3, 10, 'vvbnvbnvb', '0504356672', '0504356672', 'ghjghjgh', 6, 108, 250, NULL, '253', 'vbnvbnvbnvb', 'vbnvbn', '2023-02-27', '2023-02-27');
+(1, 'حسين محمد عبدالله احمد', '1', 4, 3, NULL, '01061093957', '01061093957', 'طنامل الشرقي - عزبة الايتارية', 5, 1000, 20, NULL, NULL, NULL, NULL, '2023-03-10', '2023-03-10'),
+(2, 'اسامة محمد المهدي', 'A10', 5, 13, 'sgdfsgdfg', '1592356', '1592356', 'dfgdfg', 3, 23, NULL, NULL, NULL, NULL, NULL, '2023-03-10', '2023-03-10');
 
 -- --------------------------------------------------------
 
@@ -133,18 +133,18 @@ CREATE TABLE `getclients` (
 ,`nPieces` int(11)
 ,`vShipment` int(11)
 ,`weight` int(11)
-,`total` int(11)
 ,`dimensions` varchar(10)
 ,`notes1` text
 ,`notes2` text
 ,`date_added` date
 ,`date_updated` date
-,`clientState` varchar(50)
 ,`clientStateId` int(11)
+,`stateName` varchar(50)
+,`listName` varchar(20)
+,`shippingValue` float
 ,`supplierName` varchar(255)
 ,`supplierPersonalAddress` int(11)
 ,`supplierState` varchar(50)
-,`shippingValue` float
 );
 
 -- --------------------------------------------------------
@@ -176,19 +176,19 @@ INSERT INTO `lk_city` (`id`, `name`, `state_id`) VALUES
 
 CREATE TABLE `lk_state` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `shippingValue` float NOT NULL
+  `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `lk_state`
 --
 
-INSERT INTO `lk_state` (`id`, `name`, `shippingValue`) VALUES
-(3, 'الدقهليه', 30),
-(4, 'الشرقية', 0),
-(5, 'المنوفيه', 0),
-(7, 'بور سعيد', 250);
+INSERT INTO `lk_state` (`id`, `name`) VALUES
+(3, 'الدقهليه'),
+(4, 'الشرقية'),
+(5, 'المنوفيه'),
+(7, 'بور سعيد'),
+(8, 'الجيزة');
 
 -- --------------------------------------------------------
 
@@ -334,7 +334,91 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (27, 'اضافة مندوب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
 (28, 'عرض المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
 (29, 'حذف المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
-(30, 'تعديل المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21');
+(30, 'تعديل المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(3, 'اضافة مستخدم', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(4, 'عرض المستخدمين', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(5, 'حذف المستخدمين', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(6, 'تعديل المستخدمين', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(7, 'اضافة صلاحية', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(8, 'عرض الصلاحيات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(9, 'حذف الصلاحيات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(10, 'تعديل الصلاحيات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(11, 'اضافة مدينة', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(12, 'عرض المدن', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(13, 'حذف المدن', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(14, 'تعديل المدن', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(15, 'اضافة محافظة', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(16, 'عرض المحافظات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(17, 'حذف المحافظات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(18, 'تعديل المحافظات', 'web', '2023-02-19 18:44:20', '2023-02-19 18:44:20'),
+(19, 'اضافة عميل', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(20, 'عرض العملاء', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(21, 'حذف العملاء', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(22, 'تعديل العملاء', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(23, 'اضافة مورد', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(24, 'عرض الموردين', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(25, 'حذف الموردين', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(26, 'تعديل الموردين', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(27, 'اضافة مندوب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(28, 'عرض المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(29, 'حذف المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(30, 'تعديل المناديب', 'web', '2023-02-19 18:44:21', '2023-02-19 18:44:21'),
+(3, 'اضافة مستخدم', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(4, 'عرض المستخدمين', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(5, 'حذف المستخدمين', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(6, 'تعديل المستخدمين', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(7, 'اضافة صلاحية', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(8, 'عرض الصلاحيات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(9, 'حذف الصلاحيات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(10, 'تعديل الصلاحيات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(11, 'اضافة مدينة', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(12, 'عرض المدن', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(13, 'حذف المدن', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(14, 'تعديل المدن', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(15, 'اضافة محافظة', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(16, 'عرض المحافظات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(17, 'حذف المحافظات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(18, 'تعديل المحافظات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(19, 'اضافة عميل', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(20, 'عرض العملاء', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(21, 'حذف العملاء', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(22, 'تعديل العملاء', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(23, 'اضافة مورد', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(24, 'عرض الموردين', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(25, 'حذف الموردين', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(26, 'تعديل الموردين', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(27, 'اضافة مندوب', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(28, 'عرض المناديب', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(29, 'حذف المناديب', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(30, 'تعديل المناديب', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(3, 'اضافة مستخدم', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(4, 'عرض المستخدمين', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(5, 'حذف المستخدمين', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(6, 'تعديل المستخدمين', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(7, 'اضافة صلاحية', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(8, 'عرض الصلاحيات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(9, 'حذف الصلاحيات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(10, 'تعديل الصلاحيات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(11, 'اضافة مدينة', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(12, 'عرض المدن', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(13, 'حذف المدن', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(14, 'تعديل المدن', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(15, 'اضافة محافظة', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(16, 'عرض المحافظات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(17, 'حذف المحافظات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(18, 'تعديل المحافظات', 'web', '2023-02-19 16:44:20', '2023-02-19 16:44:20'),
+(19, 'اضافة عميل', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(20, 'عرض العملاء', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(21, 'حذف العملاء', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(22, 'تعديل العملاء', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(23, 'اضافة مورد', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(24, 'عرض الموردين', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(25, 'حذف الموردين', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(26, 'تعديل الموردين', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(27, 'اضافة مندوب', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(28, 'عرض المناديب', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(29, 'حذف المناديب', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21'),
+(30, 'تعديل المناديب', 'web', '2023-02-19 16:44:21', '2023-02-19 16:44:21');
 
 -- --------------------------------------------------------
 
@@ -374,7 +458,13 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (3, 'ادمن', 'web', '2023-02-19 18:21:11', '2023-02-19 19:17:14'),
-(4, 'مستخدم', 'web', '2023-02-19 19:25:09', '2023-02-19 19:25:09');
+(4, 'مستخدم', 'web', '2023-02-19 19:25:09', '2023-02-19 19:25:09'),
+(3, 'ادمن', 'web', '2023-02-19 18:21:11', '2023-02-19 19:17:14'),
+(4, 'مستخدم', 'web', '2023-02-19 19:25:09', '2023-02-19 19:25:09'),
+(3, 'ادمن', 'web', '2023-02-19 16:21:11', '2023-02-19 17:17:14'),
+(4, 'مستخدم', 'web', '2023-02-19 17:25:09', '2023-02-19 17:25:09'),
+(3, 'ادمن', 'web', '2023-02-19 16:21:11', '2023-02-19 17:17:14'),
+(4, 'مستخدم', 'web', '2023-02-19 17:25:09', '2023-02-19 17:25:09');
 
 -- --------------------------------------------------------
 
@@ -426,7 +516,172 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (28, 3),
 (28, 4),
 (29, 3),
+(30, 3),
+(3, 3),
+(4, 3),
+(4, 4),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(8, 4),
+(9, 3),
+(10, 3),
+(11, 3),
+(12, 3),
+(12, 4),
+(13, 3),
+(14, 3),
+(15, 3),
+(16, 3),
+(16, 4),
+(17, 3),
+(18, 3),
+(19, 3),
+(20, 3),
+(20, 4),
+(21, 3),
+(22, 3),
+(23, 3),
+(24, 3),
+(24, 4),
+(25, 3),
+(26, 3),
+(27, 3),
+(28, 3),
+(28, 4),
+(29, 3),
+(30, 3),
+(3, 3),
+(4, 3),
+(4, 4),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(8, 4),
+(9, 3),
+(10, 3),
+(11, 3),
+(12, 3),
+(12, 4),
+(13, 3),
+(14, 3),
+(15, 3),
+(16, 3),
+(16, 4),
+(17, 3),
+(18, 3),
+(19, 3),
+(20, 3),
+(20, 4),
+(21, 3),
+(22, 3),
+(23, 3),
+(24, 3),
+(24, 4),
+(25, 3),
+(26, 3),
+(27, 3),
+(28, 3),
+(28, 4),
+(29, 3),
+(30, 3),
+(3, 3),
+(4, 3),
+(4, 4),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(8, 4),
+(9, 3),
+(10, 3),
+(11, 3),
+(12, 3),
+(12, 4),
+(13, 3),
+(14, 3),
+(15, 3),
+(16, 3),
+(16, 4),
+(17, 3),
+(18, 3),
+(19, 3),
+(20, 3),
+(20, 4),
+(21, 3),
+(22, 3),
+(23, 3),
+(24, 3),
+(24, 4),
+(25, 3),
+(26, 3),
+(27, 3),
+(28, 3),
+(28, 4),
+(29, 3),
 (30, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shippinglist`
+--
+
+CREATE TABLE `shippinglist` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shippinglist`
+--
+
+INSERT INTO `shippinglist` (`id`, `name`) VALUES
+(1, 'A'),
+(2, 'B'),
+(3, 'C'),
+(4, 'D'),
+(5, 'E'),
+(6, 'F');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shippingstates`
+--
+
+CREATE TABLE `shippingstates` (
+  `id` int(11) NOT NULL,
+  `list_id` int(11) NOT NULL,
+  `state_id` int(11) NOT NULL,
+  `shippingValue` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shippingstates`
+--
+
+INSERT INTO `shippingstates` (`id`, `list_id`, `state_id`, `shippingValue`) VALUES
+(1, 3, 5, 45),
+(3, 3, 4, 50),
+(4, 2, 3, 20);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `shippingstatesview`
+-- (See below for the actual view)
+--
+CREATE TABLE `shippingstatesview` (
+`id` int(11)
+,`list_id` int(11)
+,`state_id` int(11)
+,`shippingValue` float
+,`listName` varchar(20)
+,`stateName` varchar(50)
+);
 
 -- --------------------------------------------------------
 
@@ -458,6 +713,21 @@ INSERT INTO `suppliers` (`id`, `logo`, `name`, `personalPhone1`, `personalPhone2
 (11, '1677193383.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
 (12, '1677193324.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
 (13, '1677193160.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 3, '250', 'كود', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(14, '1677193500.jpg', 'محمد محسن', '0504356672', '0504356672', '0504356672', '0504356672', 3, 1, '20', 'Code', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(10, '1677192013.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 5, '6', 'code', NULL),
+(11, '1677193383.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(12, '1677193324.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(13, '1677193160.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 3, '250', 'كود', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(14, '1677193500.jpg', 'محمد محسن', '0504356672', '0504356672', '0504356672', '0504356672', 3, 1, '20', 'Code', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(10, '1677192013.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 5, '6', 'code', NULL),
+(11, '1677193383.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(12, '1677193324.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(13, '1677193160.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 3, '250', 'كود', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(14, '1677193500.jpg', 'محمد محسن', '0504356672', '0504356672', '0504356672', '0504356672', 3, 1, '20', 'Code', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(10, '1677192013.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 5, '6', 'code', NULL),
+(11, '1677193383.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(12, '1677193324.jpg', 'dfgdfg', 'gdfgdfg', 'gfhfgh', '1592356', 'fghfghfgh', 1, 3, 'fghfgh', 'gdfgdf', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
+(13, '1677193160.jpg', 'حسين محمد', '01061093957', '01061093957', '01061093957', '01061093957', 3, 3, '250', 'كود', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8'),
 (14, '1677193500.jpg', 'محمد محسن', '0504356672', '0504356672', '0504356672', '0504356672', 3, 1, '20', 'Code', 'https://goo.gl/maps/ZmzQfwkgaqFLzMqR8');
 
 -- --------------------------------------------------------
@@ -483,7 +753,13 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (6, 'Admin', 'admin@gmail.com', NULL, '$2y$10$k0GMsz3FMDnqDyUyz8wi1.ir9kgayMS/co2VWVdwOQvQ1cUgc63e.', NULL, '2023-02-19 18:21:11', '2023-02-19 18:21:11'),
-(7, 'حسين', 'hussien@gmail.com', NULL, '$2y$10$pPYdS897J95kT.Ws8gL67O4JonL5b4.xDYnZsRBh6jXyCLxAVPV2q', NULL, '2023-02-19 19:26:53', '2023-02-19 19:26:53');
+(7, 'حسين', 'hussien@gmail.com', NULL, '$2y$10$pPYdS897J95kT.Ws8gL67O4JonL5b4.xDYnZsRBh6jXyCLxAVPV2q', NULL, '2023-02-19 19:26:53', '2023-02-19 19:26:53'),
+(6, 'Admin', 'admin@gmail.com', NULL, '$2y$10$k0GMsz3FMDnqDyUyz8wi1.ir9kgayMS/co2VWVdwOQvQ1cUgc63e.', NULL, '2023-02-19 18:21:11', '2023-02-19 18:21:11'),
+(7, 'حسين', 'hussien@gmail.com', NULL, '$2y$10$pPYdS897J95kT.Ws8gL67O4JonL5b4.xDYnZsRBh6jXyCLxAVPV2q', NULL, '2023-02-19 19:26:53', '2023-02-19 19:26:53'),
+(6, 'Admin', 'admin@gmail.com', NULL, '$2y$10$k0GMsz3FMDnqDyUyz8wi1.ir9kgayMS/co2VWVdwOQvQ1cUgc63e.', NULL, '2023-02-19 16:21:11', '2023-02-19 16:21:11'),
+(7, 'حسين', 'hussien@gmail.com', NULL, '$2y$10$pPYdS897J95kT.Ws8gL67O4JonL5b4.xDYnZsRBh6jXyCLxAVPV2q', NULL, '2023-02-19 17:26:53', '2023-02-19 17:26:53'),
+(6, 'Admin', 'admin@gmail.com', NULL, '$2y$10$k0GMsz3FMDnqDyUyz8wi1.ir9kgayMS/co2VWVdwOQvQ1cUgc63e.', NULL, '2023-02-19 16:21:11', '2023-02-19 16:21:11'),
+(7, 'حسين', 'hussien@gmail.com', NULL, '$2y$10$pPYdS897J95kT.Ws8gL67O4JonL5b4.xDYnZsRBh6jXyCLxAVPV2q', NULL, '2023-02-19 17:26:53', '2023-02-19 17:26:53');
 
 -- --------------------------------------------------------
 
@@ -501,7 +777,16 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getclients`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getclients`  AS SELECT `clients`.`id` AS `id`, `clients`.`name` AS `name`, `clients`.`phone1` AS `phone1`, `clients`.`phone2` AS `phone2`, `clients`.`code` AS `code`, `clients`.`instructions` AS `instructions`, `clients`.`address` AS `address`, `clients`.`nPieces` AS `nPieces`, `clients`.`vShipment` AS `vShipment`, `clients`.`weight` AS `weight`, `clients`.`total` AS `total`, `clients`.`dimensions` AS `dimensions`, `clients`.`notes1` AS `notes1`, `clients`.`notes2` AS `notes2`, `clients`.`date_added` AS `date_added`, `clients`.`date_updated` AS `date_updated`, `clientstate`.`name` AS `clientState`, `clientstate`.`id` AS `clientStateId`, `suppliers`.`name` AS `supplierName`, `suppliers`.`personalAddress` AS `supplierPersonalAddress`, `supplierstate`.`name` AS `supplierState`, `clientstate`.`shippingValue` AS `shippingValue` FROM (((`clients` left join `lk_state` `clientstate` on(`clients`.`state_id` = `clientstate`.`id`)) left join `suppliers` on(`clients`.`supplier_id` = `suppliers`.`id`)) left join `lk_state` `supplierstate` on(`supplierstate`.`id` = `suppliers`.`personalAddress`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getclients`  AS SELECT `clients`.`id` AS `id`, `clients`.`name` AS `name`, `clients`.`phone1` AS `phone1`, `clients`.`phone2` AS `phone2`, `clients`.`code` AS `code`, `clients`.`instructions` AS `instructions`, `clients`.`address` AS `address`, `clients`.`nPieces` AS `nPieces`, `clients`.`vShipment` AS `vShipment`, `clients`.`weight` AS `weight`, `clients`.`dimensions` AS `dimensions`, `clients`.`notes1` AS `notes1`, `clients`.`notes2` AS `notes2`, `clients`.`date_added` AS `date_added`, `clients`.`date_updated` AS `date_updated`, `shippingstatesview`.`id` AS `clientStateId`, `shippingstatesview`.`stateName` AS `stateName`, `shippingstatesview`.`listName` AS `listName`, `shippingstatesview`.`shippingValue` AS `shippingValue`, `suppliers`.`name` AS `supplierName`, `suppliers`.`personalAddress` AS `supplierPersonalAddress`, `supplierstate`.`name` AS `supplierState` FROM (((`clients` left join `suppliers` on(`clients`.`supplier_id` = `suppliers`.`id`)) left join `lk_state` `supplierstate` on(`supplierstate`.`id` = `suppliers`.`personalAddress`)) left join `shippingstatesview` on(`shippingstatesview`.`state_id` = `clients`.`state_id`)) GROUP BY `clients`.`id``id`  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `shippingstatesview`
+--
+DROP TABLE IF EXISTS `shippingstatesview`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `shippingstatesview`  AS SELECT `shippingstates`.`id` AS `id`, `shippingstates`.`list_id` AS `list_id`, `shippingstates`.`state_id` AS `state_id`, `shippingstates`.`shippingValue` AS `shippingValue`, `shippinglist`.`name` AS `listName`, `lk_state`.`name` AS `stateName` FROM ((`shippingstates` join `shippinglist` on(`shippingstates`.`list_id` = `shippinglist`.`id`)) join `lk_state` on(`lk_state`.`id` = `shippingstates`.`state_id`))  ;
 
 --
 -- Indexes for dumped tables
@@ -572,13 +857,6 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `permissions`
---
-ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
-
---
 -- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -587,31 +865,16 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indexes for table `roles`
+-- Indexes for table `shippinglist`
 --
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
-
---
--- Indexes for table `role_has_permissions`
---
-ALTER TABLE `role_has_permissions`
-  ADD PRIMARY KEY (`permission_id`,`role_id`),
-  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
-
---
--- Indexes for table `suppliers`
---
-ALTER TABLE `suppliers`
+ALTER TABLE `shippinglist`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indexes for table `shippingstates`
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+ALTER TABLE `shippingstates`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -621,7 +884,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `delegates`
@@ -630,87 +893,22 @@ ALTER TABLE `delegates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `lk_city`
---
-ALTER TABLE `lk_city`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT for table `lk_state`
 --
 ALTER TABLE `lk_state`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `shippinglist`
+--
+ALTER TABLE `shippinglist`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `migrations`
+-- AUTO_INCREMENT for table `shippingstates`
 --
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `permissions`
---
-ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `suppliers`
---
-ALTER TABLE `suppliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `model_has_permissions`
---
-ALTER TABLE `model_has_permissions`
-  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `model_has_roles`
---
-ALTER TABLE `model_has_roles`
-  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `role_has_permissions`
---
-ALTER TABLE `role_has_permissions`
-  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+ALTER TABLE `shippingstates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
